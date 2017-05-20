@@ -26,17 +26,17 @@
 #pragma once
 
 class SDL_Renderer;
+class Map;
 
 class Graphics {
 public:
-	Graphics(int w, int h) : m_w(w), m_h(h) { };
+	Graphics(Map *map) : m_map(map) {};
 	void openWindow();
-	//void loadTiles(Map *m);
+	void loadTiles(SDL_Surface *surface);
 	void loadMap(char *filename);
 	void paint();
 
 private:
 	SDL_Renderer *m_r = nullptr;
-	int m_w, m_h;
-
+	Map *m_map;
 };

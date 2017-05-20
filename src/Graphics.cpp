@@ -26,6 +26,7 @@
 #include <SDL_render.h>
 #include <SDL.h>
 #include "Graphics.h"
+#include "Map.h"
 
 void Graphics::openWindow()
 {
@@ -36,18 +37,26 @@ void Graphics::openWindow()
 		exit(1);
 	}
 	atexit(SDL_Quit);
-	if (SDL_CreateWindowAndRenderer(m_w, m_h, SDL_WINDOW_RESIZABLE, &sdlWindow, &sdlRenderer)) {
+	if (SDL_CreateWindowAndRenderer(m_map->get_w(), m_map->get_h(), SDL_WINDOW_RESIZABLE, &sdlWindow, &sdlRenderer)) {
 		fprintf(stderr, "Couldn't create window and renderer: %s", SDL_GetError());
 		exit(1);
 	}
-	SDL_RenderSetLogicalSize(sdlRenderer, m_w, m_h);
+	SDL_RenderSetLogicalSize(sdlRenderer, m_map->get_w(), m_map->get_h());
 	m_r = sdlRenderer;
+}
+
+void Graphics::loadTiles(SDL_Surface *surface)
+{
+	SDL_Texture *t = SDL_CreateTextureFromSurface(m_r, surface);
+	reeturn
 }
 
 void Graphics::paint()
 {
 	SDL_RenderClear(m_r);
-	SDL_SetRenderDrawColor(m_r, 0, 0, 0, 255);
+	//SDL_SetRenderDrawColor(m_r, 0, 0, 0, 255);
+	//SDL_Rect
+	SDL_RenderCopy(m_r, m_map->get_texture(), NULL, m_map->get_rect());
 
 	SDL_RenderPresent(m_r);
 }

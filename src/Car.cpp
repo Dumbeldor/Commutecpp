@@ -24,3 +24,9 @@
  */
 
 #include "Car.h"
+
+Car::Car(TypeCar type, Position pos, int speed, int sterring, float direction) : m_type(type), m_pos(pos), m_speed(speed),
+																				 m_steering(sterring), m_direction(direction)
+{
+
+}

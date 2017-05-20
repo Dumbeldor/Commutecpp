@@ -33,6 +33,7 @@ public:
 	void start();
 	void stop();
 private:
+	void getEvent();
 	Graphics *m_graphics = nullptr;
 	bool m_start = true;
 };

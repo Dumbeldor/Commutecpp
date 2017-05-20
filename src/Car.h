@@ -25,6 +25,34 @@
 
 #pragma once
 
-class Car {
+#include <cstdint>
 
+enum TypeCar : int8_t {
+	AMBULANCE=0,
+	MINITRUCK,
+	TAXI,
+	SPORT,
+	MINIVAN,
+	TRUCK,
+	CAR,
+	POLICE,
+	VIPER,
+	MAX
+};
+
+struct Position {
+	float x;
+	float y;
+	Position(int x, int y) : x(x), y(y) {};
+};
+
+class Car {
+public:
+	Car(TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 2, int sterring = 2, float direction = 0.0f);
+
+private:
+	TypeCar m_type = VIPER;
+	int m_speed = 2, m_steering = 2;
+	float m_direction = 0.0f;
+	Position m_pos = Position(0, 0);
 };

@@ -26,21 +26,30 @@
 #include "Game.h"
 #include "Graphics.h"
 #include "Event.h"
+#include "Car.h"
+#include "Map.h"
 #include <SDL.h>
 #include <iostream>
 
 void Game::start()
 {
 	float ntime = SDL_GetTicks();
-	m_graphics = new Graphics(1280, 800);
+
+	Car *car = new Car();
+	cars_t cars = {};
+
+	Map *map = new Map("/home/vincent/CLionProjects/commutecpp/data/map0.bmp", 1280, 800, car, cars);
+
+	m_graphics = new Graphics(map);
 	m_graphics->openWindow();
+	m_graphics->loadTiles(map->get_texture());
 
 	Event *event = new Event(this);
 
 	while (m_start) {
 		m_graphics->paint();
 
-		event->getEvent();
+		getEvent();
 
 		SDL_Delay(( 1000 / 20));
 	}
@@ -51,4 +60,22 @@ void Game::start()
 void Game::stop()
 {
 	m_start = false;
+}
+
+void Game::getEvent()
+{
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			m_start = false;
+			return;
+		}
+
+		if (event.type == SDL_KEYDOWN) {
+			if (event.key.keysym.sym == SDLK_ESCAPE) {
+				m_start = false;
+				return;
+			}
+		}
+	}
 }

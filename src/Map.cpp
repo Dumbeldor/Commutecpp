@@ -24,12 +24,19 @@
  */
 
 #include <SDL_surface.h>
+#include <SDL_render.h>
 #include "Map.h"
 #include "Car.h"
 
-Map::Map(std::string map, int w, int h, Car *car = nullptr, cars_t cars = cars_t{}) : m_h(h), m_w(w)
+Map::Map(const std::string &map, int w, int h, Car *car, cars_t &cars)
 {
 	m_s = SDL_LoadBMP(map.c_str());
+	m_t = SDL_CreateTextureFromSurface(m_r, surface);
+
+	m_rect.w = w;
+	m_rect.h = h;
+	m_rect.x = 0;
+	m_rect.y = 0;
 
 	if (car)
 		m_car = car;
