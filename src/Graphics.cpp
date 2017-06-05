@@ -27,6 +27,12 @@
 #include <SDL.h>
 #include "Graphics.h"
 #include "Map.h"
+#include "Car.h"
+
+Graphics::~Graphics()
+{
+	delete m_r;
+}
 
 void Graphics::openWindow(Map *map)
 {
@@ -46,7 +52,19 @@ void Graphics::openWindow(Map *map)
 void Graphics::loadTiles()
 {
 	m_map->set_texture(SDL_CreateTextureFromSurface(m_r, m_map->get_surface()));
-	//reeturn
+
+	for (int i = 0; i < CAR_MAX; i++) {
+		SDL_Surface *loadedImage = SDL_LoadBMP(Car::s_tilenames[i]);
+		if (loadedImage) {
+			uint32_t colorkey = SDL_MapRGB(loadedImage->format, 0xff, 0xff, 0xff);
+			SDL_SetColorKey(loadedImage, SDL_TRUE, colorkey);
+			Car::s_tile[i] = SDL_CreateTextureFromSurface(m_r, loadedImage);
+			SDL_FreeSurface(loadedImage);
+		}
+		else {
+			std::cout << stderr << "Missing file " << Car::s_tilenames[i] << " : " << SDL_GetError() << std::endl;
+		}
+	}
 }
 
 void Graphics::paint()

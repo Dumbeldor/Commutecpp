@@ -33,6 +33,7 @@ class SDL_Window;
 class Graphics {
 public:
 	Graphics() {};
+	~Graphics();
 	void openWindow(Map *map);
 	void loadTiles();
 	void loadMap(char *filename);

@@ -29,6 +29,19 @@
 #include "Graphics.h"
 #include "Car.h"
 
+Map::~Map()
+{
+	delete m_car;
+	for (const auto &car : m_cars) {
+		delete car;
+	}
+	for (int i = 0; i < CAR_MAX; i++) {
+		delete Car::s_tile[i];
+	}
+	delete m_s;
+	delete m_t;
+}
+
 Map::Map(Graphics *graphics, const std::string &map, int w, int h, Car *car, cars_t &cars) : m_graphics(graphics)
 {
 	m_s = SDL_LoadBMP(map.c_str());

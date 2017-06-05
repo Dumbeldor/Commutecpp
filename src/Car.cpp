@@ -25,8 +25,24 @@
 
 #include "Car.h"
 
+const char *Car::s_tilenames[] = {
+		"/home/vincent/CLionProjects/commutecpp/data/ambulance.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/minitruck.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/taxi.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/sport.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/minivan.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/truck.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/car.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/police.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/viper.bmp"
+};
+SDL_Texture *Car::s_tile[CAR_MAX] = {};
+
 Car::Car(TypeCar type, Position pos, int speed, int sterring, float direction) : m_type(type), m_pos(pos), m_speed(speed),
 																				 m_steering(sterring), m_direction(direction)
 {
+}
 
+Car::~Car()
+{
 }

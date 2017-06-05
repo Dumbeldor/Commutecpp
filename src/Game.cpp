@@ -31,6 +31,11 @@
 #include <SDL.h>
 #include <iostream>
 
+Game::~Game()
+{
+	delete m_graphics;
+}
+
 void Game::start()
 {
 	float ntime = SDL_GetTicks();
@@ -53,6 +58,9 @@ void Game::start()
 
 		SDL_Delay(( 1000 / 20));
 	}
+
+	delete map;
+	delete event;
 
 	return;
 }

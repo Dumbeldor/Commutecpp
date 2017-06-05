@@ -27,6 +27,8 @@
 
 #include <cstdint>
 
+class SDL_Texture;
+
 enum TypeCar : int8_t {
 	AMBULANCE=0,
 	MINITRUCK,
@@ -37,7 +39,7 @@ enum TypeCar : int8_t {
 	CAR,
 	POLICE,
 	VIPER,
-	MAX
+	CAR_MAX
 };
 
 struct Position {
@@ -49,6 +51,10 @@ struct Position {
 class Car {
 public:
 	Car(TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 2, int sterring = 2, float direction = 0.0f);
+	~Car();
+
+	static const char *s_tilenames[];
+	static SDL_Texture *s_tile[CAR_MAX];
 
 private:
 	TypeCar m_type = VIPER;

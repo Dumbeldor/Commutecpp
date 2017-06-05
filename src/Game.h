@@ -30,6 +30,7 @@ class Graphics;
 class Game {
 public:
 	Game(){};
+	~Game();
 	void start();
 	void stop();
 private:

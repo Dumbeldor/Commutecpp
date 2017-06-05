@@ -39,11 +39,15 @@ typedef std::vector<Car *> cars_t;
 class Map {
 public:
 	Map(Graphics *graphics, const std::string &map, int w, int h, Car *car, cars_t &cars);
+	~Map();
 	const int get_w() const { return m_rect.w; };
 	const int get_h() const { return m_rect.h; };
 
 	SDL_Texture *get_texture() const { return m_t; };
 	void set_texture(SDL_Texture *t) { m_t = t; };
+
+	Car *get_car() const { return m_car; }
+	void set_car(Car *car) { m_car = car; };
 
 	SDL_Rect *get_rect() { return &m_rect; };
 	SDL_Surface *get_surface() const { return m_s; };
