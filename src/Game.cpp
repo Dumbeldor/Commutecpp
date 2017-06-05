@@ -38,11 +38,11 @@ void Game::start()
 	Car *car = new Car();
 	cars_t cars = {};
 
-	Map *map = new Map("/home/vincent/CLionProjects/commutecpp/data/map0.bmp", 1280, 800, car, cars);
+	m_graphics = new Graphics();
+	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/map0.bmp", 1280, 800, car, cars);
 
-	m_graphics = new Graphics(map);
-	m_graphics->openWindow();
-	m_graphics->loadTiles(map->get_texture());
+	m_graphics->openWindow(map);
+	m_graphics->loadTiles();
 
 	Event *event = new Event(this);
 

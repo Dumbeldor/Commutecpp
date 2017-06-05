@@ -32,21 +32,26 @@
 class SDL_Texture;
 class SDL_Surface;
 class Car;
+class Graphics;
 
 typedef std::vector<Car *> cars_t;
 
 class Map {
 public:
-	Map(const std::string &map, int w, int h, Car *car, cars_t &cars);
+	Map(Graphics *graphics, const std::string &map, int w, int h, Car *car, cars_t &cars);
 	const int get_w() const { return m_rect.w; };
 	const int get_h() const { return m_rect.h; };
+
 	SDL_Texture *get_texture() const { return m_t; };
+	void set_texture(SDL_Texture *t) { m_t = t; };
+
 	SDL_Rect *get_rect() { return &m_rect; };
-	SDL_Surface *get_surface() { return m_s; };
+	SDL_Surface *get_surface() const { return m_s; };
 private:
 	SDL_Surface *m_s = nullptr;
 	SDL_Texture *m_t = nullptr;
 	SDL_Rect m_rect;
 	Car *m_car = nullptr;
 	std::vector<Car *> m_cars = {};
+	Graphics *m_graphics = nullptr;
 };

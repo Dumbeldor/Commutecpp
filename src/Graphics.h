@@ -27,16 +27,21 @@
 
 class SDL_Renderer;
 class Map;
+class SDL_Surface;
+class SDL_Window;
 
 class Graphics {
 public:
-	Graphics(Map *map) : m_map(map) {};
-	void openWindow();
-	void loadTiles(SDL_Surface *surface);
+	Graphics() {};
+	void openWindow(Map *map);
+	void loadTiles();
 	void loadMap(char *filename);
 	void paint();
 
+	SDL_Renderer *get_renderer() const { return m_r; };
+
 private:
 	SDL_Renderer *m_r = nullptr;
+	SDL_Window *m_window = nullptr;
 	Map *m_map;
 };

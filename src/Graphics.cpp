@@ -28,27 +28,25 @@
 #include "Graphics.h"
 #include "Map.h"
 
-void Graphics::openWindow()
+void Graphics::openWindow(Map *map)
 {
-	SDL_Window *sdlWindow;
-	SDL_Renderer *sdlRenderer;
+	m_map = map;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		fprintf(stderr, "Initialization error:%s\n", SDL_GetError());
 		exit(1);
 	}
 	atexit(SDL_Quit);
-	if (SDL_CreateWindowAndRenderer(m_map->get_w(), m_map->get_h(), SDL_WINDOW_RESIZABLE, &sdlWindow, &sdlRenderer)) {
+	if (SDL_CreateWindowAndRenderer(m_map->get_w(), m_map->get_h(), SDL_WINDOW_RESIZABLE, &m_window, &m_r)) {
 		fprintf(stderr, "Couldn't create window and renderer: %s", SDL_GetError());
 		exit(1);
 	}
-	SDL_RenderSetLogicalSize(sdlRenderer, m_map->get_w(), m_map->get_h());
-	m_r = sdlRenderer;
+	SDL_RenderSetLogicalSize(m_r, m_map->get_w(), m_map->get_h());
 }
 
-void Graphics::loadTiles(SDL_Surface *surface)
+void Graphics::loadTiles()
 {
-	SDL_Texture *t = SDL_CreateTextureFromSurface(m_r, surface);
-	reeturn
+	m_map->set_texture(SDL_CreateTextureFromSurface(m_r, m_map->get_surface()));
+	//reeturn
 }
 
 void Graphics::paint()

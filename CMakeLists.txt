@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 project(commutecpp)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(BINDIR "${CMAKE_INSTALL_PREFIX}/bin")
