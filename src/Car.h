@@ -51,14 +51,25 @@ struct Position {
 
 class Car {
 public:
-	Car(TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 2, int sterring = 2, float direction = 0.0f);
+	Car(TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 2, int sterring = 3, float direction = 0.0f);
 	~Car();
+	void move();
 
 	const TypeCar &get_type() const { return m_type; };
 
 	const SDL_Rect get_rect() const;
 
+	void set_direction(float direction) { m_direction = direction;}
 	const float get_direction() const { return m_direction; };
+
+	const int get_speed() const { return m_speed; };
+	void set_speed(int speed) { m_speed = speed; };
+
+	const int get_steering() const { return m_steering; }
+	void set_steering(int steering) { m_steering = steering; }
+
+	Position get_pos() const { return m_pos; }
+	void set_pos(Position &pos) { m_pos = pos; }
 
 	static const char *s_tilenames[];
 	static SDL_Texture *s_tile[CAR_MAX];

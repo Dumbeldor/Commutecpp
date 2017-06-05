@@ -35,6 +35,7 @@ public:
 	void stop();
 private:
 	void getEvent();
+	void update();
 	Graphics *m_graphics = nullptr;
 	bool m_start = true;
 };

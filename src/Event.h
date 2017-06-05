@@ -26,12 +26,14 @@
 #pragma once
 
 class Game;
+class Car;
 
 class Event {
 public:
-	Event(Game *game) : m_game(game) {};
+	Event(Game *game, Car *car) : m_game(game), m_car(car) {};
 	void getEvent();
 
 private:
 	Game *m_game = nullptr;
+	Car *m_car = nullptr;
 };

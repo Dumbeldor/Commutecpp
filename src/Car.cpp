@@ -25,6 +25,8 @@
 
 #include "Car.h"
 
+#define PI 3.14159265
+
 const char *Car::s_tilenames[] = {
 		"/home/vincent/CLionProjects/commutecpp/data/ambulance.bmp",
 		"/home/vincent/CLionProjects/commutecpp/data/minitruck.bmp",
@@ -51,4 +53,12 @@ const SDL_Rect Car::get_rect() const
 {
 	SDL_Rect rect = {m_pos.x, m_pos.y, 32, 32};
 	return rect;
+}
+
+void Car::move()
+{
+	double val;
+	val = PI / 180.0;
+	m_pos.x = m_pos.x + m_speed * cos(val * m_direction);
+	m_pos.y = m_pos.y + m_speed * sin(val * m_direction);
 }

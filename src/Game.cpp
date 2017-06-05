@@ -49,20 +49,25 @@ void Game::start()
 	m_graphics->openWindow(map);
 	m_graphics->loadTiles();
 
-	Event *event = new Event(this);
+	Event *event = new Event(this, car);
 
 	while (m_start) {
+		event->getEvent();
+		car->move();
+
 		m_graphics->paint();
-
-		getEvent();
-
-		SDL_Delay(( 1000 / 20));
+		SDL_Delay(( 1000 / 40));
 	}
 
 	delete map;
 	delete event;
 
 	return;
+}
+
+void Game::update()
+{
+
 }
 
 void Game::stop()

@@ -26,6 +26,7 @@
 #include <SDL_events.h>
 #include "Event.h"
 #include "Game.h"
+#include "Car.h"
 
 void Event::getEvent()
 {
@@ -42,8 +43,10 @@ void Event::getEvent()
 					m_game->stop();
 					return;
 				case SDLK_LEFT:
+					m_car->set_direction(m_car->get_direction() - m_car->get_steering());
 					break;
 				case SDLK_RIGHT:
+					m_car->set_direction(m_car->get_direction() + m_car->get_steering());
 					break;
 
 				default:;
