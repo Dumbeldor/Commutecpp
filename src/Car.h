@@ -26,6 +26,7 @@
 #pragma once
 
 #include <cstdint>
+#include <SDL_rect.h>
 
 class SDL_Texture;
 
@@ -52,6 +53,12 @@ class Car {
 public:
 	Car(TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 2, int sterring = 2, float direction = 0.0f);
 	~Car();
+
+	const TypeCar &get_type() const { return m_type; };
+
+	const SDL_Rect get_rect() const;
+
+	const float get_direction() const { return m_direction; };
 
 	static const char *s_tilenames[];
 	static SDL_Texture *s_tile[CAR_MAX];

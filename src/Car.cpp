@@ -46,3 +46,9 @@ Car::Car(TypeCar type, Position pos, int speed, int sterring, float direction) :
 Car::~Car()
 {
 }
+
+const SDL_Rect Car::get_rect() const
+{
+	SDL_Rect rect = {m_pos.x, m_pos.y, 32, 32};
+	return rect;
+}

@@ -74,5 +74,9 @@ void Graphics::paint()
 	//SDL_Rect
 	SDL_RenderCopy(m_r, m_map->get_texture(), NULL, m_map->get_rect());
 
+	Car *car = m_map->get_car();
+	SDL_Rect rect = car->get_rect();
+	SDL_RenderCopyEx(m_r, Car::s_tile[car->get_type()], NULL, &rect, car->get_direction(), NULL, SDL_FLIP_NONE);
+
 	SDL_RenderPresent(m_r);
 }
