@@ -23,7 +23,9 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <SDL_render.h>
 #include "Car.h"
+#include "Map.h"
 
 #define PI 3.14159265
 
@@ -40,7 +42,7 @@ const char *Car::s_tilenames[] = {
 };
 SDL_Texture *Car::s_tile[CAR_MAX] = {};
 
-Car::Car(TypeCar type, Position pos, int speed, int sterring, float direction) : m_type(type), m_pos(pos), m_speed(speed),
+Car::Car(Map *map, TypeCar type, Position pos, int speed, int sterring, float direction) : m_map(map), m_type(type), m_pos(pos), m_speed(speed),
 																				 m_steering(sterring), m_direction(direction)
 {
 }
@@ -51,7 +53,7 @@ Car::~Car()
 
 const SDL_Rect Car::get_rect() const
 {
-	SDL_Rect rect = {m_pos.x, m_pos.y, 32, 32};
+	SDL_Rect rect = {int(m_pos.x), int(m_pos.y), 32, 32};
 	return rect;
 }
 
@@ -59,6 +61,21 @@ void Car::move()
 {
 	double val;
 	val = PI / 180.0;
-	m_pos.x = m_pos.x + m_speed * cos(val * m_direction);
-	m_pos.y = m_pos.y + m_speed * sin(val * m_direction);
+	float x = m_pos.x + m_speed * cos(val * m_direction);
+	float y = m_pos.y + m_speed * sin(val * m_direction);
+
+	if (x > m_map->get_w() - 32 || x < 0)
+		x = m_pos.x;
+	if (y > m_map->get_h() - 32 || y < 0)
+		y = m_pos.y;
+
+	m_pos.x = x;
+	m_pos.y = y;
+}
+
+void Car::paint(SDL_Renderer *sdl_render)
+{
+	SDL_Rect rect = get_rect();
+	SDL_RenderCopyEx(sdl_render, s_tile[m_type], NULL, &rect, m_direction, NULL, SDL_FLIP_NONE);
+
 }

@@ -29,6 +29,8 @@
 #include <SDL_rect.h>
 
 class SDL_Texture;
+class Map;
+class SDL_Renderer;
 
 enum TypeCar : int8_t {
 	AMBULANCE=0,
@@ -51,8 +53,9 @@ struct Position {
 
 class Car {
 public:
-	Car(TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 2, int sterring = 3, float direction = 0.0f);
+	Car(Map *map, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 2, int sterring = 3, float direction = 0.0f);
 	~Car();
+	void paint(SDL_Renderer *sdl_render);
 	void move();
 
 	const TypeCar &get_type() const { return m_type; };
@@ -74,9 +77,12 @@ public:
 	static const char *s_tilenames[];
 	static SDL_Texture *s_tile[CAR_MAX];
 
+	void set_map(Map *map) { m_map = map; }
+
 private:
 	TypeCar m_type = VIPER;
 	int m_speed = 2, m_steering = 2;
 	float m_direction = 0.0f;
 	Position m_pos = Position(0, 0);
+	Map *m_map = nullptr;
 };

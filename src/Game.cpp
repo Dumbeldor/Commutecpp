@@ -40,11 +40,14 @@ void Game::start()
 {
 	float ntime = SDL_GetTicks();
 
-	Car *car = new Car();
-	cars_t cars = {};
-
 	m_graphics = new Graphics();
-	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/map0.bmp", 1280, 800, car, cars);
+	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/map0.bmp", 1280, 800);
+
+	Car *car = new Car(map);
+	cars_t cars = {};
+	cars.push_back(new Car(map));
+	map->set_car(car);
+	map->set_cars(cars);
 
 	m_graphics->openWindow(map);
 	m_graphics->loadTiles();
@@ -55,8 +58,15 @@ void Game::start()
 		event->getEvent();
 		car->move();
 
+		std::vector<Car *> cars;
+		map->get_cars(cars);
+		for (Car *c: cars) {
+			if (c)
+				c->move();
+		}
+
 		m_graphics->paint();
-		SDL_Delay(( 1000 / 40));
+		SDL_Delay(( 1000 / 50));
 	}
 
 	delete map;

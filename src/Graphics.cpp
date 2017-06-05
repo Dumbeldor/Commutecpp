@@ -31,7 +31,6 @@
 
 Graphics::~Graphics()
 {
-	delete m_r;
 }
 
 void Graphics::openWindow(Map *map)
@@ -70,13 +69,18 @@ void Graphics::loadTiles()
 void Graphics::paint()
 {
 	SDL_RenderClear(m_r);
-	//SDL_SetRenderDrawColor(m_r, 0, 0, 0, 255);
-	//SDL_Rect
 	SDL_RenderCopy(m_r, m_map->get_texture(), NULL, m_map->get_rect());
 
-	Car *car = m_map->get_car();
-	SDL_Rect rect = car->get_rect();
-	SDL_RenderCopyEx(m_r, Car::s_tile[car->get_type()], NULL, &rect, car->get_direction(), NULL, SDL_FLIP_NONE);
+	// Car drive
+	m_map->get_car()->paint(m_r);
+
+	// Other car
+	std::vector<Car *> m_cars;
+	m_map->get_cars(m_cars);
+	for (Car *car : m_cars) {
+		car->paint(m_r);
+	}
+
 
 	SDL_RenderPresent(m_r);
 }

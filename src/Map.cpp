@@ -35,28 +35,19 @@ Map::~Map()
 	for (const auto &car : m_cars) {
 		delete car;
 	}
-	for (int i = 0; i < CAR_MAX; i++) {
-		delete Car::s_tile[i];
-	}
 	delete m_s;
-	delete m_t;
 }
 
-Map::Map(Graphics *graphics, const std::string &map, int w, int h, Car *car, cars_t &cars) : m_graphics(graphics)
+Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(graphics)
 {
 	m_s = SDL_LoadBMP(map.c_str());
 	if (m_graphics) {
 		m_t = SDL_CreateTextureFromSurface(m_graphics->get_renderer(), m_s);
 	}
 
+
 	m_rect.w = w;
 	m_rect.h = h;
 	m_rect.x = 0;
 	m_rect.y = 0;
-
-	if (car)
-		m_car = car;
-
-	if (!cars.empty())
-		m_cars = cars;
 }

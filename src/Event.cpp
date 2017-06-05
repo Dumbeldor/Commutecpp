@@ -42,6 +42,8 @@ void Event::getEvent()
 				case SDLK_ESCAPE:
 					m_game->stop();
 					return;
+				case SDLK_DOWN:
+					m_car->set_speed(m_car->get_speed()-1);
 				case SDLK_LEFT:
 					m_car->set_direction(m_car->get_direction() - m_car->get_steering());
 					break;
