@@ -64,9 +64,9 @@ void Car::move()
 	float x = m_pos.x + m_speed * cos(val * m_direction);
 	float y = m_pos.y + m_speed * sin(val * m_direction);
 
-	if (x > m_map->get_w() - 32 || x < 0)
+	if (x > m_map->get_w() - 16 || x < -16)
 		x = m_pos.x;
-	if (y > m_map->get_h() - 32 || y < 0)
+	if (y > m_map->get_h() - 16 || y < -16)
 		y = m_pos.y;
 
 	m_pos.x = x;
