@@ -79,3 +79,12 @@ void Car::paint(SDL_Renderer *sdl_render)
 	SDL_RenderCopyEx(sdl_render, s_tile[m_type], NULL, &rect, m_direction, NULL, SDL_FLIP_NONE);
 
 }
+
+void Car::spawn()
+{
+	srand(time(nullptr));
+	std::vector<Point> spawn_point = m_map->get_spawn_point();
+	Point point = spawn_point[rand() % spawn_point.size()];
+	m_pos.x = point.x;
+	m_pos.y = point.y;
+}

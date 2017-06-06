@@ -38,6 +38,7 @@ public:
 	void loadTiles();
 	void loadMap(char *filename);
 	void paint();
+	int getpixel(SDL_Surface *surface, int x, int y);
 
 	SDL_Renderer *get_renderer() const { return m_r; };
 

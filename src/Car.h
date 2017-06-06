@@ -57,6 +57,7 @@ public:
 	~Car();
 	void paint(SDL_Renderer *sdl_render);
 	void move();
+	void spawn();
 
 	const TypeCar &get_type() const { return m_type; };
 

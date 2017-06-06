@@ -34,12 +34,20 @@ class SDL_Surface;
 class Car;
 class Graphics;
 
+struct Point {
+	int x;
+	int y;
+	Point(int x, int y) : x(x), y(y) {};
+};
+
 typedef std::vector<Car *> cars_t;
 
 class Map {
 public:
 	Map(Graphics *graphics, const std::string &map, int w, int h);
 	~Map();
+	void loadSpawnPoint();
+
 	const int get_w() const { return m_rect.w; };
 	const int get_h() const { return m_rect.h; };
 
@@ -49,11 +57,13 @@ public:
 	Car *get_car() const { return m_car; }
 	void set_car(Car *car) { m_car = car; };
 
-	const void get_cars(std::vector<Car *> &cars) const { cars = m_cars; };
+	const std::vector<Car *> &get_cars() const { return m_cars; };
 	void set_cars(std::vector<Car *> &cars) { m_cars = cars; };
 
 	SDL_Rect *get_rect() { return &m_rect; };
 	SDL_Surface *get_surface() const { return m_s; };
+
+	const std::vector<Point> &get_spawn_point() const { return m_spawn_point; };
 
 private:
 	SDL_Surface *m_s = nullptr;
@@ -61,5 +71,6 @@ private:
 	SDL_Rect m_rect;
 	Car *m_car = nullptr;
 	std::vector<Car *> m_cars = {};
+	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;
 };

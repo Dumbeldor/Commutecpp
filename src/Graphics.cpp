@@ -75,12 +75,43 @@ void Graphics::paint()
 	m_map->get_car()->paint(m_r);
 
 	// Other car
-	std::vector<Car *> m_cars;
-	m_map->get_cars(m_cars);
+	const std::vector<Car *> &m_cars = m_map->get_cars();
 	for (Car *car : m_cars) {
 		car->paint(m_r);
 	}
 
 
 	SDL_RenderPresent(m_r);
+}
+
+int Graphics::getpixel(SDL_Surface *surface, int x, int y)
+{
+	int bpp = surface->format->BytesPerPixel;
+	uint8_t r, g, b;
+	uint8_t *p = (uint8_t *) surface->pixels + y * surface->pitch + x * bpp;
+	uint32_t pixel;
+	switch (bpp) {
+		case 1:
+			pixel = *p;
+			break;
+		case 2:
+			pixel = *(uint16_t *) p;
+			break;
+		case 3:
+			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+				pixel = p[0] << 16 | p[1] << 8 | p[2];
+			else
+				pixel = p[0] | p[1] << 8 | p[2] << 16;
+			break;
+		case 4:
+			pixel = *(uint32_t *) p;
+			break;
+		default:
+			pixel = 0;
+	}
+	SDL_GetRGB(pixel, surface->format, &r, &g, &b);
+	r = r >> 4;
+	g = g >> 4;
+	b = b >> 4;
+	return (r << 8) + (g << 4) + b;
 }

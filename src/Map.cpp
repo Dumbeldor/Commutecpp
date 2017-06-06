@@ -51,3 +51,17 @@ Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(
 	m_rect.x = 0;
 	m_rect.y = 0;
 }
+
+void Map::loadSpawnPoint()
+{
+	int pixel = 0;
+	for (int h = 0; h < get_h()-1; h++) {
+		for (int l = 0; l < get_w(); l++) {
+			pixel = m_graphics->getpixel(m_s, l, h);
+			if (pixel == 0x00f) {
+				Point point(l, h);
+				m_spawn_point.push_back(point);
+			}
+		}
+	}
+}

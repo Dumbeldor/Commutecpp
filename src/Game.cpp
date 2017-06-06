@@ -52,14 +52,16 @@ void Game::start()
 	m_graphics->openWindow(map);
 	m_graphics->loadTiles();
 
+	map->loadSpawnPoint();
+	car->spawn();
+
 	Event *event = new Event(this, car);
 
 	while (m_start) {
 		event->getEvent();
 		car->move();
 
-		std::vector<Car *> cars;
-		map->get_cars(cars);
+		const std::vector<Car *> &cars = map->get_cars();
 		for (Car *c: cars) {
 			if (c)
 				c->move();
