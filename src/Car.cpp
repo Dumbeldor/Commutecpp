@@ -30,6 +30,8 @@
 
 #define PI 3.14159265
 
+const uint16_t Car::size = 64;
+
 const char *Car::s_tilenames[] = {
 		"/home/vincent/CLionProjects/commutecpp/data/ambulance.bmp",
 		"/home/vincent/CLionProjects/commutecpp/data/minitruck.bmp",
@@ -54,7 +56,7 @@ Car::~Car()
 
 const SDL_Rect Car::get_rect() const
 {
-	SDL_Rect rect = {int(m_pos.x), int(m_pos.y), 32, 32};
+	SDL_Rect rect = {int(m_pos.x), int(m_pos.y), size, size};
 	return rect;
 }
 
@@ -65,7 +67,7 @@ void Car::move()
 	float x = m_pos.x + m_speed * cos(val * m_direction);
 	float y = m_pos.y + m_speed * sin(val * m_direction);
 
-	int pixel = Graphics::getpixel(m_map->get_surface_collision(), x+16, y+16);
+	int pixel = Graphics::getpixel(m_map->get_surface_collision(), x+size/2, y+size/2);
 
 	if (pixel == 0xf00) {
 		//std::cout << "ROUUUUUUUGE" << std::endl;
@@ -75,9 +77,9 @@ void Car::move()
 		y = m_pos.y;
 	}
 	else {
-		if (x > m_map->get_w() - 16 || x < -16)
+		if (x > m_map->get_w() - size/2 || x < -size/2)
 			x = m_pos.x;
-		if (y > m_map->get_h() - 16 || y < -16)
+		if (y > m_map->get_h() - size/2 || y < -size/2)
 			y = m_pos.y;
 	}
 

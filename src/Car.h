@@ -86,4 +86,5 @@ private:
 	float m_direction = 0.0f;
 	Position m_pos = Position(0, 0);
 	Map *m_map = nullptr;
+	static const uint16_t size;
 };
