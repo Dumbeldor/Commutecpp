@@ -41,7 +41,7 @@ void Game::start()
 	float ntime = SDL_GetTicks();
 
 	m_graphics = new Graphics();
-	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/map0.bmp", 1280, 800);
+	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/circuit", 1280, 800);
 
 	Car *car = new Car(map);
 	cars_t cars = {};

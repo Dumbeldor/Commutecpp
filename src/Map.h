@@ -63,10 +63,13 @@ public:
 	SDL_Rect *get_rect() { return &m_rect; };
 	SDL_Surface *get_surface() const { return m_s; };
 
+	SDL_Surface *get_surface_collision() const { return m_s_collision; }
+
 	const std::vector<Point> &get_spawn_point() const { return m_spawn_point; };
 
 private:
 	SDL_Surface *m_s = nullptr;
+	SDL_Surface *m_s_collision = nullptr;
 	SDL_Texture *m_t = nullptr;
 	SDL_Rect m_rect;
 	Car *m_car = nullptr;

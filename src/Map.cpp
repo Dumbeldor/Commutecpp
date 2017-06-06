@@ -40,7 +40,18 @@ Map::~Map()
 
 Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(graphics)
 {
-	m_s = SDL_LoadBMP(map.c_str());
+	std::string m = map + ".bmp";
+	m_s = SDL_LoadBMP(m.c_str());
+	if (!m_s) {
+		std::cerr << "The map " << m << " doesnt exist !" << std::endl;
+		return;
+	}
+	std::string col = map + "_collision.bmp";
+	m_s_collision = SDL_LoadBMP(col.c_str());
+	if (!m_s_collision) {
+		std::cerr << "The map " << col << " doesnt exist !" << std::endl;
+		return;
+	}
 	if (m_graphics) {
 		m_t = SDL_CreateTextureFromSurface(m_graphics->get_renderer(), m_s);
 	}
@@ -57,7 +68,7 @@ void Map::loadSpawnPoint()
 	int pixel = 0;
 	for (int h = 0; h < get_h()-1; h++) {
 		for (int l = 0; l < get_w(); l++) {
-			pixel = m_graphics->getpixel(m_s, l, h);
+			pixel = Graphics::getpixel(m_s, l, h);
 			if (pixel == 0x00f) {
 				Point point(l, h);
 				m_spawn_point.push_back(point);
