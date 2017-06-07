@@ -56,7 +56,9 @@ void Game::start()
 	m_graphics->loadTiles();
 
 	map->loadSpawnPoint();
-	//map->loadCollision();
+	std::cout << "Chargement des collision" << std::endl;
+	map->loadCollision();
+	std::cout << "Fin chargement collision" << std::endl;
 	car->spawn();
 
 	Event *event = new Event(this, car);
