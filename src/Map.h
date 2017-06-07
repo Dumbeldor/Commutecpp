@@ -65,7 +65,7 @@ public:
 	Car *get_car() const { return m_car; }
 	void set_car(Car *car) { m_car = car; };
 
-	const std::vector<Car *> &get_cars() const { return m_cars; };
+	std::vector<Car *> &get_cars() { return m_cars; };
 	void set_cars(std::vector<Car *> &cars) { m_cars = cars; };
 
 	SDL_Rect *get_rect() { return &m_rect; };
@@ -84,5 +84,5 @@ private:
 	std::vector<Car *> m_cars = {};
 	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;
-	//std::unordered_map<Point, TypeMap> m_types_maps;
+	//std::unordered_map<Point, TypeMap> *m_types_maps;
 };

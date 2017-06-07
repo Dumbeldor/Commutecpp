@@ -31,6 +31,8 @@
 #include <SDL.h>
 #include <iostream>
 
+uint32_t Game::s_time = 0;
+
 Game::~Game()
 {
 	delete m_graphics;
@@ -43,8 +45,9 @@ void Game::start()
 	m_graphics = new Graphics();
 	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/circuit", 1280, 800);
 
-	Car *car = new Car(map);
+	Car *car = new Car(map, true);
 	cars_t cars = {};
+	cars.push_back(new Car(map));
 	cars.push_back(new Car(map));
 	map->set_car(car);
 	map->set_cars(cars);
@@ -59,9 +62,29 @@ void Game::start()
 	Event *event = new Event(this, car);
 
 	while (m_start) {
-		event->getEvent();
-		car->move();
-		car->save();
+		if (s_time == 500) {
+			car->set_drive(false);
+			car->spawn_begin();
+
+			map->get_cars().push_back(new Car(car));
+			car->set_drive(true);
+			car->set_directions();
+			car->spawn();
+			s_time = 0;
+
+			for (Car *c: map->get_cars()) {
+				c->spawn_begin();
+			}
+		}
+
+		if (car->get_drive()) {
+			event->getEvent();
+			car->move();
+			car->save();
+		}
+		else {
+			car->move();
+		}
 
 		const std::vector<Car *> &cars = map->get_cars();
 		for (Car *c: cars) {
@@ -70,6 +93,9 @@ void Game::start()
 		}
 
 		m_graphics->paint();
+
+		s_time++;
+		std::cout << s_time << std::endl;
 		SDL_Delay(( 1000 / 30));
 	}
 

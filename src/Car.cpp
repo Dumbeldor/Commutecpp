@@ -27,6 +27,7 @@
 #include "Car.h"
 #include "Map.h"
 #include "Graphics.h"
+#include "Game.h"
 
 #define PI 3.14159265
 
@@ -45,9 +46,21 @@ const char *Car::s_tilenames[] = {
 };
 SDL_Texture *Car::s_tile[CAR_MAX] = {};
 
-Car::Car(Map *map, TypeCar type, Position pos, int speed, int sterring, float direction) : m_map(map), m_type(type), m_pos(pos), m_speed(speed),
+Car::Car(Map *map, bool drive, TypeCar type, Position pos, int speed, int sterring, float direction) : m_map(map), m_drive(drive), m_type(type), m_pos(pos), m_speed(speed),
 																				 m_steering(sterring), m_direction(direction)
 {
+}
+
+Car::Car(Car *car)
+{
+	m_spawn = car->get_spawn();
+	m_directions = car->get_directions();
+	m_map = car->get_map();
+	m_pos = car->get_pos();
+	m_speed = car->get_speed();
+	m_type = car->get_type();
+	m_steering = car->get_steering();
+	m_drive = car->get_drive();
 }
 
 Car::~Car()
@@ -64,6 +77,12 @@ void Car::move()
 {
 	double val;
 	val = PI / 180.0;
+	if (!m_drive) {
+		if (m_directions.size() > Game::get_time()-1)
+			m_direction = m_directions[Game::get_time()];
+		else
+			m_direction = 0;
+	}
 	float x = m_pos.x + (m_speed + m_override_speed) * cos(val * m_direction);
 	float y = m_pos.y + (m_speed + m_override_speed) * sin(val * m_direction);
 
@@ -108,4 +127,9 @@ void Car::spawn()
 	m_pos.x = point.x - size/2;
 	m_pos.y = point.y - size/2;
 	m_spawn = m_pos;
+}
+
+void Car::spawn_begin()
+{
+	m_pos = m_spawn;
 }

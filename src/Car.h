@@ -54,11 +54,13 @@ struct Position {
 
 class Car {
 public:
-	Car(Map *map, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 4, int sterring = 3, float direction = 0.0f);
+	Car(Map *map, bool drive = false, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 4, int sterring = 3, float direction = 0.0f);
+	Car(Car *car);
 	~Car();
 	void paint(SDL_Renderer *sdl_render);
 	void move();
 	void spawn();
+	void spawn_begin();
 	void save();
 
 	const TypeCar &get_type() const { return m_type; };
@@ -85,7 +87,18 @@ public:
 
 	void set_map(Map *map) { m_map = map; }
 
+	void set_drive(bool drive) { m_drive = drive; }
+	const bool get_drive() const { return m_drive; }
+
+	Position get_spawn() const { return m_spawn; }
+
+	std::vector<float> get_directions() const { return m_directions; }
+	void set_directions(std::vector<float> directions = {}) { m_directions = directions;}
+
+	Map *get_map() const { return m_map; }
+
 private:
+	bool m_drive = false;
 	TypeCar m_type = VIPER;
 	int m_speed = 2, m_steering = 2;
 	int m_override_speed = 0;

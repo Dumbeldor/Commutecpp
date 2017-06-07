@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 class Graphics;
 
 class Game {
@@ -33,9 +35,12 @@ public:
 	~Game();
 	void start();
 	void stop();
+
+	static const uint32_t get_time() { return s_time; };
 private:
 	void getEvent();
 	void update();
 	Graphics *m_graphics = nullptr;
 	bool m_start = true;
+	static uint32_t s_time;
 };
