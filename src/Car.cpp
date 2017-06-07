@@ -64,17 +64,18 @@ void Car::move()
 {
 	double val;
 	val = PI / 180.0;
-	float x = m_pos.x + m_speed * cos(val * m_direction);
-	float y = m_pos.y + m_speed * sin(val * m_direction);
+	float x = m_pos.x + (m_speed + m_override_speed) * cos(val * m_direction);
+	float y = m_pos.y + (m_speed + m_override_speed) * sin(val * m_direction);
 
 	int pixel = Graphics::getpixel(m_map->get_surface_collision(), x+size/2, y+size/2);
+	m_override_speed = 0;
 
 	if (pixel == 0xf00) {
-		//std::cout << "ROUUUUUUUGE" << std::endl;
-		//x = m_pos.x - (m_speed * cos(val * m_direction) * 2);
-		//y = m_pos.y - (m_speed * sin(val * m_direction) * 2);
 		x = m_pos.x;
 		y = m_pos.y;
+	}
+	else if (pixel == 0x0f0){
+		m_override_speed = -2;
 	}
 	else {
 		if (x > m_map->get_w() - size/2 || x < -size/2)
@@ -85,6 +86,11 @@ void Car::move()
 
 	m_pos.x = x;
 	m_pos.y = y;
+}
+
+void Car::save()
+{
+	m_directions.push_back(m_direction);
 }
 
 void Car::paint(SDL_Renderer *sdl_render)
@@ -99,6 +105,7 @@ void Car::spawn()
 	srand(time(nullptr));
 	std::vector<Point> spawn_point = m_map->get_spawn_point();
 	Point point = spawn_point[rand() % spawn_point.size()];
-	m_pos.x = point.x;
-	m_pos.y = point.y;
+	m_pos.x = point.x - size/2;
+	m_pos.y = point.y - size/2;
+	m_spawn = m_pos;
 }

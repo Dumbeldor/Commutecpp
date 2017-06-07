@@ -28,6 +28,7 @@
 #include <iostream>
 #include <vector>
 #include <SDL_rect.h>
+#include <unordered_map>
 
 class SDL_Texture;
 class SDL_Surface;
@@ -40,12 +41,19 @@ struct Point {
 	Point(int x, int y) : x(x), y(y) {};
 };
 
+enum TypeMap : uint8_t {
+	ROAD=0,
+	GRASS,
+	BUILDING
+};
+
 typedef std::vector<Car *> cars_t;
 
 class Map {
 public:
 	Map(Graphics *graphics, const std::string &map, int w, int h);
 	~Map();
+	void loadCollision();
 	void loadSpawnPoint();
 
 	const int get_w() const { return m_rect.w; };
@@ -76,4 +84,5 @@ private:
 	std::vector<Car *> m_cars = {};
 	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;
+	//std::unordered_map<Point, TypeMap> m_types_maps;
 };

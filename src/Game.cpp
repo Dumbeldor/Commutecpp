@@ -53,6 +53,7 @@ void Game::start()
 	m_graphics->loadTiles();
 
 	map->loadSpawnPoint();
+	//map->loadCollision();
 	car->spawn();
 
 	Event *event = new Event(this, car);
@@ -60,6 +61,7 @@ void Game::start()
 	while (m_start) {
 		event->getEvent();
 		car->move();
+		car->save();
 
 		const std::vector<Car *> &cars = map->get_cars();
 		for (Car *c: cars) {
@@ -68,7 +70,7 @@ void Game::start()
 		}
 
 		m_graphics->paint();
-		SDL_Delay(( 1000 / 50));
+		SDL_Delay(( 1000 / 30));
 	}
 
 	delete map;

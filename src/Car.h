@@ -27,6 +27,7 @@
 
 #include <cstdint>
 #include <SDL_rect.h>
+#include <vector>
 
 class SDL_Texture;
 class Map;
@@ -53,11 +54,12 @@ struct Position {
 
 class Car {
 public:
-	Car(Map *map, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 2, int sterring = 3, float direction = 0.0f);
+	Car(Map *map, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 4, int sterring = 3, float direction = 0.0f);
 	~Car();
 	void paint(SDL_Renderer *sdl_render);
 	void move();
 	void spawn();
+	void save();
 
 	const TypeCar &get_type() const { return m_type; };
 
@@ -68,6 +70,9 @@ public:
 
 	const int get_speed() const { return m_speed; };
 	void set_speed(int speed) { m_speed = speed; };
+
+	const int get_override_speed() const { return m_speed; };
+	void set_override_speed(int speed) { m_override_speed = speed; };
 
 	const int get_steering() const { return m_steering; }
 	void set_steering(int steering) { m_steering = steering; }
@@ -83,8 +88,11 @@ public:
 private:
 	TypeCar m_type = VIPER;
 	int m_speed = 2, m_steering = 2;
+	int m_override_speed = 0;
 	float m_direction = 0.0f;
 	Position m_pos = Position(0, 0);
 	Map *m_map = nullptr;
+	Position m_spawn = Position(0, 0);
 	static const uint16_t size;
+	std::vector<float> m_directions = {};
 };
