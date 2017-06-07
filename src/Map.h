@@ -29,6 +29,7 @@
 #include <vector>
 #include <SDL_rect.h>
 #include <unordered_map>
+#include "Graphics.h"
 
 class SDL_Texture;
 class SDL_Surface;
@@ -94,5 +95,7 @@ private:
 	std::vector<Car *> m_cars = {};
 	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;
-	std::unordered_map<Point, TypeMap, point_hash> m_types_maps = {};
+	//std::vector<TypeMap> m_types_maps = {};
+	TypeMap m_types_maps[1280][800];
+	//std::unordered_map<Point, TypeMap, point_hash> m_types_maps = {};
 };

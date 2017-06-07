@@ -67,24 +67,23 @@ void Map::loadCollision()
 {
 	int pixel = 0;
 	for (int h = 0; h < get_h()-1; h++) {
-		for (int l = 0; l < get_w(); l++) {
+		for (int l = 0; l < get_w()-1; l++) {
 			Point point(l, h);
 			pixel = Graphics::getpixel(m_s_collision, l, h);
 			if (pixel == 0xf00) {
 				TypeMap type(BUILDING);
-				m_types_maps.insert({point, type});
+				m_types_maps[l][h] = type;
 			}
 			if (pixel == 0x0f0) {
 				TypeMap type(GRASS);
-				m_types_maps.insert({point, type});
+				m_types_maps[l][h] = type;
 			}
 			else {
 				TypeMap type(ROAD);
-				m_types_maps.insert({point, type});
+				m_types_maps[l][h] = type;
 			}
 		}
 	}
-	std::cout << "Nb de pixel : " << m_types_maps.size() << std::endl;
 }
 
 void Map::loadSpawnPoint()
