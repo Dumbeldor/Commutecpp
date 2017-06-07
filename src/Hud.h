@@ -25,24 +25,13 @@
 
 #pragma once
 
-#include <cstdint>
+class SDL_Renderer;
 
-class Graphics;
-
-class Game {
+class Hud {
 public:
-	Game(){};
-	~Game();
-	void start();
-	void stop();
+	Hud() {};
+	static void paint(SDL_Renderer *renderer);
 
-	static const uint32_t get_time() { return s_time; };
-	static const uint32_t get_time_max() { return s_time_max; }
 private:
-	void getEvent();
-	void update();
-	Graphics *m_graphics = nullptr;
-	bool m_start = true;
-	static uint32_t s_time;
-	static const uint32_t s_time_max = 500;
+
 };

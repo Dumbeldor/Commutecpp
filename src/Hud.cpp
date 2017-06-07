@@ -23,26 +23,22 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#pragma once
+#include "Hud.h"
+#include "Graphics.h"
+#include "Game.h"
+#include <SDL_render.h>
+#include <iostream>
 
-#include <cstdint>
+void Hud::paint(SDL_Renderer *renderer)
+{
+	SDL_Rect rect = {0, 0, Graphics::get_w(), 20};
+	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	SDL_RenderFillRect(renderer, &rect);
 
-class Graphics;
-
-class Game {
-public:
-	Game(){};
-	~Game();
-	void start();
-	void stop();
-
-	static const uint32_t get_time() { return s_time; };
-	static const uint32_t get_time_max() { return s_time_max; }
-private:
-	void getEvent();
-	void update();
-	Graphics *m_graphics = nullptr;
-	bool m_start = true;
-	static uint32_t s_time;
-	static const uint32_t s_time_max = 500;
-};
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	int taille = Graphics::get_w() / (Game::get_time() - Game::get_time_max());
+	std::cout << "TAILLE : " << taille << std::endl;
+	SDL_Rect rect_finish = {0, 0,taille,
+							  20};
+	SDL_RenderFillRect(renderer, &rect_finish);
+}

@@ -28,6 +28,10 @@
 #include "Graphics.h"
 #include "Map.h"
 #include "Car.h"
+#include "Hud.h"
+
+int Graphics::s_h = 0;
+int Graphics::s_w = 0;
 
 Graphics::~Graphics()
 {
@@ -36,12 +40,14 @@ Graphics::~Graphics()
 void Graphics::openWindow(Map *map)
 {
 	m_map = map;
+	s_h = m_map->get_h();
+	s_w = m_map->get_w();
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		fprintf(stderr, "Initialization error:%s\n", SDL_GetError());
 		exit(1);
 	}
 	atexit(SDL_Quit);
-	if (SDL_CreateWindowAndRenderer(m_map->get_w(), m_map->get_h(), SDL_WINDOW_RESIZABLE, &m_window, &m_r)) {
+	if (SDL_CreateWindowAndRenderer(s_w, s_h, SDL_WINDOW_RESIZABLE, &m_window, &m_r)) {
 		fprintf(stderr, "Couldn't create window and renderer: %s", SDL_GetError());
 		exit(1);
 	}
@@ -71,6 +77,9 @@ void Graphics::paint()
 	SDL_RenderClear(m_r);
 	SDL_RenderCopy(m_r, m_map->get_texture(), NULL, m_map->get_rect());
 
+	// Hud
+	Hud::paint(m_r);
+
 	// Car drive
 	m_map->get_car()->paint(m_r);
 
@@ -79,8 +88,10 @@ void Graphics::paint()
 	for (Car *car : m_cars) {
 		car->paint(m_r);
 	}
+}
 
-
+void Graphics::render()
+{
 	SDL_RenderPresent(m_r);
 }
 

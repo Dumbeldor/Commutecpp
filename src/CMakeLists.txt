@@ -2,7 +2,7 @@ include_directories(
         # for cmake_config.h
         ${PROJECT_BINARY_DIR}/include)
 
-set(SOURCE_FILES main.cpp Game.cpp Graphics.cpp Event.cpp Map.cpp Car.cpp)
+set(SOURCE_FILES main.cpp Game.cpp Graphics.cpp Event.cpp Map.cpp Car.cpp Hud.cpp)
 set(SDL2_INCLUDE_DIR /usr/include/SDL2)
 set(SDL2_LIBRARY /usr/lib/libSDL2.so)
 set(LIBRARY m sndfile)

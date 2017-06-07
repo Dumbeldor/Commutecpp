@@ -28,10 +28,12 @@
 #include "Event.h"
 #include "Car.h"
 #include "Map.h"
+#include "Hud.h"
 #include <SDL.h>
 #include <iostream>
 
 uint32_t Game::s_time = 0;
+//uint32_t Game::s_time_max = 500;
 
 Game::~Game()
 {
@@ -47,8 +49,6 @@ void Game::start()
 
 	Car *car = new Car(map, true);
 	cars_t cars = {};
-	cars.push_back(new Car(map));
-	cars.push_back(new Car(map));
 	map->set_car(car);
 	map->set_cars(cars);
 
@@ -62,7 +62,7 @@ void Game::start()
 	Event *event = new Event(this, car);
 
 	while (m_start) {
-		if (s_time == 500) {
+		if (s_time == s_time_max) {
 			car->set_drive(false);
 			car->spawn_begin();
 
@@ -93,6 +93,8 @@ void Game::start()
 		}
 
 		m_graphics->paint();
+
+		m_graphics->render();
 
 		s_time++;
 		std::cout << s_time << std::endl;

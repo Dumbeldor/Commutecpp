@@ -38,7 +38,10 @@ public:
 	void loadTiles();
 	void loadMap(char *filename);
 	void paint();
+	void render();
 	static int getpixel(SDL_Surface *surface, int x, int y);
+	static const int get_h() { return s_h; }
+	static const int get_w() { return s_w; }
 
 	SDL_Renderer *get_renderer() const { return m_r; };
 
@@ -46,4 +49,6 @@ private:
 	SDL_Renderer *m_r = nullptr;
 	SDL_Window *m_window = nullptr;
 	Map *m_map;
+	static int s_h;
+	static int s_w;
 };
