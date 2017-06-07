@@ -36,9 +36,7 @@ void Hud::paint(SDL_Renderer *renderer)
 	SDL_RenderFillRect(renderer, &rect);
 
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-	int taille = Graphics::get_w() / (Game::get_time() - Game::get_time_max());
-	std::cout << "TAILLE : " << taille << std::endl;
-	SDL_Rect rect_finish = {0, 0,taille,
-							  20};
+	SDL_Rect rect_finish = {0, 0,((float) Game::get_time() / (float) Game::get_time_max()) * Graphics::get_w()
+			, 20};
 	SDL_RenderFillRect(renderer, &rect_finish);
 }
