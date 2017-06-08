@@ -58,6 +58,7 @@ void Game::start()
 	map->loadSpawnPoint();
 	std::cout << "Chargement des collision" << std::endl;
 	map->loadCollision();
+	std::cout << "TEST : " << map->get_types_maps()[10][10] << std::endl;
 	std::cout << "Fin chargement collision" << std::endl;
 	car->spawn();
 

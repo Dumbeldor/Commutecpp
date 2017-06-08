@@ -86,6 +86,8 @@ public:
 
 	const std::vector<Point> &get_spawn_point() const { return m_spawn_point; };
 
+	TypeMap **get_types_maps() const { return m_types_maps;}
+
 private:
 	SDL_Surface *m_s = nullptr;
 	SDL_Surface *m_s_collision = nullptr;
@@ -96,6 +98,7 @@ private:
 	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;
 	//std::vector<TypeMap> m_types_maps = {};
-	TypeMap m_types_maps[1280][800];
+	//TypeMap m_types_maps[1280][800];
+	TypeMap **m_types_maps = nullptr;
 	//std::unordered_map<Point, TypeMap, point_hash> m_types_maps = {};
 };

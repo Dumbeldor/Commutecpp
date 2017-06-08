@@ -66,12 +66,14 @@ Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(
 void Map::loadCollision()
 {
 	int pixel = 0;
-	for (int h = 0; h < get_h()-1; h++) {
-		for (int l = 0; l < get_w()-1; l++) {
-			Point point(l, h);
+	m_types_maps = new TypeMap*[1280];
+	for (int l = 0; l < get_w()-1; l++) {
+		m_types_maps[l] = new TypeMap[800];
+		for (int h = 0; h < get_h()-1; h++) {
 			pixel = Graphics::getpixel(m_s_collision, l, h);
 			if (pixel == 0xf00) {
 				TypeMap type(BUILDING);
+				std::cout << "TEST : " << type << std::endl;
 				m_types_maps[l][h] = type;
 			}
 			if (pixel == 0x0f0) {

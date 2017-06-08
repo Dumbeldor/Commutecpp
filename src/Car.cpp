@@ -88,12 +88,14 @@ void Car::move()
 
 	int pixel = Graphics::getpixel(m_map->get_surface_collision(), x+size/2, y+size/2);
 	m_override_speed = 0;
+	TypeMap **types_maps;
+	types_maps = m_map->get_types_maps();
 
-	if (pixel == 0xf00) {
+	if (types_maps[static_cast<int>(x)][static_cast<int>(y)] == BUILDING) {
 		x = m_pos.x;
 		y = m_pos.y;
 	}
-	else if (pixel == 0x0f0){
+	else if (types_maps[static_cast<int>(x)][static_cast<int>(y)] == GRASS){
 		m_override_speed = -2;
 	}
 	else {
