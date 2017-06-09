@@ -93,8 +93,8 @@ Map::Map(Graphics *graphics, const std::string &map, const std::string &filename
 
 	fin.close();
 
-	for (y = 0; y < MAX_Y-1; y++) {
-		for (int x = 0; x < MAX_X-1; x++) {
+	for (y = 0; y < MAX_Y; y++) {
+		for (int x = 0; x < MAX_X; x++) {
 			tile[y][x] = lignes[y][x];
 		}
 	}

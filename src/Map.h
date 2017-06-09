@@ -31,7 +31,7 @@
 #include <unordered_map>
 #include "Graphics.h"
 
-#define MAX_Y 2
+#define MAX_Y 15
 #define MAX_X 20
 
 class SDL_Texture;
