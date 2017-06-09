@@ -28,6 +28,8 @@
 #include "Map.h"
 #include "Graphics.h"
 #include "Car.h"
+#include <fstream>
+#include <sstream>
 
 Map::~Map()
 {
@@ -38,29 +40,64 @@ Map::~Map()
 	for (int i = 0; i < CAR_MAX; i++) {
 		SDL_free(Car::s_tile[i]);
 	}
-	SDL_FreeSurface(m_s);
-	SDL_free(m_t);
-	delete m_s;
+	SDL_FreeSurface(m_tileset);
+	SDL_free(m_texture);
+	//delete m_spawn_point;
 }
 
-Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(graphics)
+Map::Map(Graphics *graphics, const std::string &map, const std::string &filename, int w, int h) : m_graphics(graphics)
 {
 	std::string m = map + ".bmp";
-	m_s = SDL_LoadBMP(m.c_str());
-	if (!m_s) {
-		std::cerr << "The map " << m << " doesnt exist !" << std::endl;
-		return;
-	}
-	std::string col = map + "_collision.bmp";
-	m_s_collision = SDL_LoadBMP(col.c_str());
-	if (!m_s_collision) {
-		std::cerr << "The map " << col << " doesnt exist !" << std::endl;
+	m_tileset = SDL_LoadBMP(m.c_str());
+	if (!m_tileset) {
+		std::cerr << "The tileset " << m << " doesnt exist !" << std::endl;
 		return;
 	}
 	if (m_graphics) {
-		m_t = SDL_CreateTextureFromSurface(m_graphics->get_renderer(), m_s);
+		m_texture = SDL_CreateTextureFromSurface(m_graphics->get_renderer(), m_tileset);
 	}
 
+	// Charger fichier map
+	std::fstream fin;
+	int x = 0;
+	int y = 0;
+	std::vector<std::vector<int>> lignes;
+	std::vector<int> vectData;
+	std::string strBuf, strTmp;
+	std::stringstream iostr;
+
+	fin.open(filename, std::fstream::in);
+	if (!fin.is_open()) {
+		std::cerr << "Error to load : " << filename << " !" << std::endl;
+		exit(1);
+	}
+	while(!fin.eof()) {
+		std::getline(fin, strBuf);
+		if (!strBuf.size())
+			continue;
+
+		iostr.clear();
+		iostr.str(strBuf);
+		vectData.clear();
+
+		while(true) {
+			getline(iostr, strTmp, ' ');
+			vectData.push_back(atoi(strTmp.c_str()));
+			if (!iostr.good())
+				break;
+		}
+
+		if (vectData.size())
+			lignes.push_back(vectData);
+	}
+
+	fin.close();
+
+	for (y = 0; y < MAX_Y-1; y++) {
+		for (int x = 0; x < MAX_X-1; x++) {
+			tile[y][x] = lignes[y][x];
+		}
+	}
 
 	m_rect.w = w;
 	m_rect.h = h;
@@ -68,41 +105,41 @@ Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(
 	m_rect.y = 0;
 }
 
-void Map::loadCollision()
+void Map::paint(SDL_Renderer *sdl_render)
 {
-	int pixel = 0;
-	m_types_maps = new TypeMap*[1280];
-	for (int l = 0; l < get_w()-1; l++) {
-		m_types_maps[l] = new TypeMap[800];
-		for (int h = 0; h < get_h()-1; h++) {
-			pixel = Graphics::getpixel(m_s_collision, l, h);
-			if (pixel == 0xf00) {
-				TypeMap type(BUILDING);
-				m_types_maps[l][h] = type;
-			}
-			else if (pixel == 0x0f0) {
-				TypeMap type(GRASS);
-				m_types_maps[l][h] = type;
-			}
-			else {
-				TypeMap type(ROAD);
-				m_types_maps[l][h] = type;
-			}
+	for (int y = 0; y < MAX_Y; y++) {
+		for (int x = 0; x < MAX_X; x++) {
+			int a = tile[y][x];
+
+			SDL_Rect rect;
+			rect.h = 64;
+			rect.w = 64;
+			rect.y = a / 9 * TILE_SIZE;
+			rect.x = a % 9 * TILE_SIZE;
+
+			SDL_Rect rect_dest;
+			rect_dest.y = y * TILE_SIZE;
+			rect_dest.x = x * TILE_SIZE;
+			rect_dest.h = TILE_SIZE;
+			rect_dest.w = TILE_SIZE;
+
+			SDL_RenderCopy(sdl_render, m_texture, &rect, &rect_dest);
 		}
 	}
-	SDL_FreeSurface(m_s_collision);
 }
 
 void Map::loadSpawnPoint()
 {
+	/*
 	int pixel = 0;
 	for (int h = 0; h < get_h()-1; h++) {
 		for (int l = 0; l < get_w(); l++) {
-			pixel = Graphics::getpixel(m_s, l, h);
+			pixel = Graphics::getpixel(m_tileset, l, h);
 			if (pixel == 0x00f) {
 				Point point(l, h);
 				m_spawn_point.push_back(point);
 			}
 		}
 	}
+	 */
 }

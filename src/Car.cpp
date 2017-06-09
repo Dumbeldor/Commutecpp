@@ -88,6 +88,7 @@ void Car::move()
 
 	m_override_speed = 0;
 	TypeMap **types_maps;
+	/*
 	types_maps = m_map->get_types_maps();
 
 	if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == BUILDING) {
@@ -106,6 +107,7 @@ void Car::move()
 
 	m_pos.x = x;
 	m_pos.y = y;
+	 */
 }
 
 void Car::save()

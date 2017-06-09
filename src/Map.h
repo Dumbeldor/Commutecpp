@@ -31,8 +31,12 @@
 #include <unordered_map>
 #include "Graphics.h"
 
+#define MAX_Y 2
+#define MAX_X 20
+
 class SDL_Texture;
 class SDL_Surface;
+class SDL_Renderer;
 class Car;
 class Graphics;
 
@@ -45,14 +49,7 @@ struct Point {
 	}
 };
 
-struct point_hash {
-	std::size_t operator()(const Point& p) const
-	{
-		return ((std::hash<int>()(p.x) ^ (std::hash<int>()(p.y))));
-	}
-};
-
-enum TypeMap : uint8_t {
+enum TypeMap : uint32_t {
 	ROAD=0,
 	GRASS,
 	BUILDING,
@@ -62,16 +59,17 @@ typedef std::vector<Car *> cars_t;
 
 class Map {
 public:
-	Map(Graphics *graphics, const std::string &map, int w, int h);
+	Map(Graphics *graphics, const std::string &map, const std::string &filename, int w, int h);
 	~Map();
+	void paint(SDL_Renderer *sdl_render);
 	void loadCollision();
 	void loadSpawnPoint();
 
 	const int get_w() const { return m_rect.w; };
 	const int get_h() const { return m_rect.h; };
 
-	SDL_Texture *get_texture() const { return m_t; };
-	void set_texture(SDL_Texture *t) { m_t = t; };
+	SDL_Texture *get_texture() const { return m_texture; };
+	void set_texture(SDL_Texture *t) { m_texture = t; };
 
 	Car *get_car() const { return m_car; }
 	void set_car(Car *car) { m_car = car; };
@@ -80,23 +78,24 @@ public:
 	void set_cars(std::vector<Car *> &cars) { m_cars = cars; };
 
 	SDL_Rect *get_rect() { return &m_rect; };
-	SDL_Surface *get_surface() const { return m_s; };
+	SDL_Surface *get_surface() const { return m_tileset; };
 
 	const std::vector<Point> &get_spawn_point() const { return m_spawn_point; };
 
-	TypeMap **get_types_maps() const { return m_types_maps;}
-
 private:
-	SDL_Surface *m_s = nullptr;
-	SDL_Surface *m_s_collision = nullptr;
-	SDL_Texture *m_t = nullptr;
 	SDL_Rect m_rect;
 	Car *m_car = nullptr;
 	std::vector<Car *> m_cars = {};
 	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;
-	//std::vector<TypeMap> m_types_maps = {};
-	//TypeMap m_types_maps[1280][800];
-	TypeMap **m_types_maps = nullptr;
-	//std::unordered_map<Point, TypeMap, point_hash> m_types_maps = {};
+
+	SDL_Surface *m_tileset = nullptr;
+	SDL_Texture *m_texture = nullptr;
+	int tile[MAX_Y][MAX_X];
+	int tile2[MAX_Y][MAX_X];
+	int tile3[MAX_Y][MAX_X];
+	int tile4[MAX_Y][MAX_X];
+	uint8_t lvl;
+
+	const uint32_t TILE_SIZE = 64;
 };

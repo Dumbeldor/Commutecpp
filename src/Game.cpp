@@ -45,7 +45,8 @@ void Game::start()
 	float ntime = SDL_GetTicks();
 
 	m_graphics = new Graphics();
-	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/circuit", 1280, 800);
+	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/road",
+					   "/home/vincent/CLionProjects/commutecpp/map/1.txt", 1280, 960);
 
 	Car *car = new Car(map, true);
 	cars_t cars = {};
@@ -56,15 +57,25 @@ void Game::start()
 	m_graphics->loadTiles();
 
 	map->loadSpawnPoint();
+
 	std::cout << "Chargement des collision" << std::endl;
-	map->loadCollision();
-	std::cout << "TEST : " << map->get_types_maps()[10][10] << std::endl;
+	//map->loadCollision();
+	//std::cout << "TEST : " << map->get_types_maps()[10][10] << std::endl;
 	std::cout << "Fin chargement collision" << std::endl;
-	car->spawn();
+	//car->spawn();
 
 	Event *event = new Event(this, car);
 
 	while (m_start) {
+		event->getEvent();
+		m_graphics->paint();
+
+		m_graphics->render();
+
+		s_time++;
+		std::cout << s_time << std::endl;
+		SDL_Delay(( 1000 / 30));
+		/*
 		if (s_time == s_time_max) {
 			car->set_drive(false);
 			car->spawn_begin();
@@ -102,6 +113,7 @@ void Game::start()
 		s_time++;
 		std::cout << s_time << std::endl;
 		SDL_Delay(( 1000 / 30));
+		 */
 	}
 
 	delete map;

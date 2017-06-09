@@ -75,7 +75,8 @@ void Graphics::loadTiles()
 void Graphics::paint()
 {
 	SDL_RenderClear(m_r);
-	SDL_RenderCopy(m_r, m_map->get_texture(), NULL, m_map->get_rect());
+	//SDL_RenderCopy(m_r, m_map->get_texture(), NULL, m_map->get_rect());
+	m_map->paint(m_r);
 
 	// Hud
 	Hud::paint(m_r);
