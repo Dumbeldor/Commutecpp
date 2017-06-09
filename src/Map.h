@@ -55,7 +55,7 @@ struct point_hash {
 enum TypeMap : uint8_t {
 	ROAD=0,
 	GRASS,
-	BUILDING
+	BUILDING,
 };
 
 typedef std::vector<Car *> cars_t;
@@ -81,8 +81,6 @@ public:
 
 	SDL_Rect *get_rect() { return &m_rect; };
 	SDL_Surface *get_surface() const { return m_s; };
-
-	SDL_Surface *get_surface_collision() const { return m_s_collision; }
 
 	const std::vector<Point> &get_spawn_point() const { return m_spawn_point; };
 

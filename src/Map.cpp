@@ -35,6 +35,11 @@ Map::~Map()
 	for (const auto &car : m_cars) {
 		delete car;
 	}
+	for (int i = 0; i < CAR_MAX; i++) {
+		SDL_free(Car::s_tile[i]);
+	}
+	SDL_FreeSurface(m_s);
+	SDL_free(m_t);
 	delete m_s;
 }
 
@@ -73,10 +78,9 @@ void Map::loadCollision()
 			pixel = Graphics::getpixel(m_s_collision, l, h);
 			if (pixel == 0xf00) {
 				TypeMap type(BUILDING);
-				std::cout << "TEST : " << type << std::endl;
 				m_types_maps[l][h] = type;
 			}
-			if (pixel == 0x0f0) {
+			else if (pixel == 0x0f0) {
 				TypeMap type(GRASS);
 				m_types_maps[l][h] = type;
 			}
@@ -86,6 +90,7 @@ void Map::loadCollision()
 			}
 		}
 	}
+	SDL_FreeSurface(m_s_collision);
 }
 
 void Map::loadSpawnPoint()

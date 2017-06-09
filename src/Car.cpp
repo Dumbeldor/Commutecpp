@@ -86,16 +86,15 @@ void Car::move()
 	float x = m_pos.x + (m_speed + m_override_speed) * cos(val * m_direction);
 	float y = m_pos.y + (m_speed + m_override_speed) * sin(val * m_direction);
 
-	int pixel = Graphics::getpixel(m_map->get_surface_collision(), x+size/2, y+size/2);
 	m_override_speed = 0;
 	TypeMap **types_maps;
 	types_maps = m_map->get_types_maps();
 
-	if (types_maps[static_cast<int>(x)][static_cast<int>(y)] == BUILDING) {
+	if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == BUILDING) {
 		x = m_pos.x;
 		y = m_pos.y;
 	}
-	else if (types_maps[static_cast<int>(x)][static_cast<int>(y)] == GRASS){
+	else if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == GRASS){
 		m_override_speed = -2;
 	}
 	else {
@@ -119,6 +118,8 @@ void Car::paint(SDL_Renderer *sdl_render)
 	SDL_Rect rect = get_rect();
 	SDL_RenderCopyEx(sdl_render, s_tile[m_type], NULL, &rect, m_direction, NULL, SDL_FLIP_NONE);
 
+	SDL_SetRenderDrawColor(sdl_render, 255, 0, 0, 255);
+	SDL_RenderDrawRect(sdl_render, &rect);
 }
 
 void Car::spawn()
