@@ -63,6 +63,7 @@ Car::Car(Car *car)
 	m_type = car->get_type();
 	m_steering = car->get_steering();
 	m_drive = car->get_drive();
+	m_collision_box = new CollisionBox(24, 72, 214, 93);
 }
 
 Car::~Car()
@@ -95,12 +96,17 @@ void Car::move()
 	float y = m_pos.y + (m_speed + m_override_speed) * sin(val * m_direction);
 
 	m_collision_box->set_pos(static_cast<int>(x) + 24, static_cast<int>(y) + 72);
+	const std::vector<Car *> &cars = m_map->get_cars();
+	for (const Car &car : cars) {
+		if (m_collision_box->is_collision(car.get_collision_box())) {
+			std::cout << "COLLISION TO CAR " << std::endl;
+		}
+	}
 
 	m_override_speed = 0;
 	TypeMap **types_maps;
 	types_maps = m_map->get_types_maps();
 
-	/*
 	if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == BUILDING) {
 		x = m_pos.x;
 		y = m_pos.y;
@@ -108,12 +114,10 @@ void Car::move()
 	else if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == GRASS){
 		m_override_speed = -2;
 	}
-	 */
-	if ()
 	else {
-		if (x > m_map->get_w() - size/2 || x < -size/2)
+		if (x > m_map->get_w() || x < -size)
 			x = m_pos.x;
-		if (y > m_map->get_h() - size/2 || y < -size/2)
+		if (y > m_map->get_h() || y < -size)
 			y = m_pos.y;
 	}
 

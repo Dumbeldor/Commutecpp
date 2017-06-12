@@ -101,6 +101,8 @@ public:
 
 	Map *get_map() const { return m_map; }
 
+	CollisionBox *get_collision_box() const { return m_collision_box; };
+
 private:
 	bool m_drive = false;
 	TypeCar m_type = VIPER;

@@ -30,5 +30,7 @@ bool CollisionBox::is_collision(const CollisionBox *collision) const
 {
 	if (m_box > collision->get_box() && m_box < collision->get_box()) {
 		std::cout << "Collision" << std::endl;
+		return true;
 	}
+	return false;
 }
