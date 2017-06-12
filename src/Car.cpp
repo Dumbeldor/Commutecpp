@@ -28,6 +28,7 @@
 #include "Map.h"
 #include "Graphics.h"
 #include "Game.h"
+#include "CollisionBox.h"
 
 #define PI 3.14159265
 
@@ -49,6 +50,7 @@ SDL_Texture *Car::s_tile[CAR_MAX] = {};
 Car::Car(Map *map, bool drive, TypeCar type, Position pos, int speed, int sterring, float direction) : m_map(map), m_drive(drive), m_type(type), m_pos(pos), m_speed(speed),
 																				 m_steering(sterring), m_direction(direction)
 {
+	load_collision();
 }
 
 Car::Car(Car *car)
@@ -73,6 +75,12 @@ const SDL_Rect Car::get_rect() const
 	return rect;
 }
 
+void Car::load_collision()
+{
+	// A refaire
+	m_collision_box = new CollisionBox(24, 72, 214, 93);
+}
+
 void Car::move()
 {
 	double val;
@@ -86,10 +94,13 @@ void Car::move()
 	float x = m_pos.x + (m_speed + m_override_speed) * cos(val * m_direction);
 	float y = m_pos.y + (m_speed + m_override_speed) * sin(val * m_direction);
 
+	m_collision_box->set_pos(static_cast<int>(x) + 24, static_cast<int>(y) + 72);
+
 	m_override_speed = 0;
 	TypeMap **types_maps;
 	types_maps = m_map->get_types_maps();
 
+	/*
 	if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == BUILDING) {
 		x = m_pos.x;
 		y = m_pos.y;
@@ -97,6 +108,8 @@ void Car::move()
 	else if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == GRASS){
 		m_override_speed = -2;
 	}
+	 */
+	if ()
 	else {
 		if (x > m_map->get_w() - size/2 || x < -size/2)
 			x = m_pos.x;
@@ -120,6 +133,8 @@ void Car::paint(SDL_Renderer *sdl_render)
 
 	SDL_SetRenderDrawColor(sdl_render, 255, 0, 0, 255);
 	SDL_RenderDrawRect(sdl_render, &rect);
+
+	SDL_SetRenderDrawColor(sdl_render, 0, 255, 0, 255);
 }
 
 void Car::spawn()

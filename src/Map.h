@@ -45,13 +45,6 @@ struct Point {
 	}
 };
 
-struct point_hash {
-	std::size_t operator()(const Point& p) const
-	{
-		return ((std::hash<int>()(p.x) ^ (std::hash<int>()(p.y))));
-	}
-};
-
 enum TypeMap : uint8_t {
 	ROAD=0,
 	GRASS,

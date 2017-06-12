@@ -29,9 +29,12 @@
 #include <SDL_rect.h>
 #include <vector>
 
+#define SIZE_CAR 256
+
 class SDL_Texture;
 class Map;
 class SDL_Renderer;
+class CollisionBox;
 
 enum TypeCar : int8_t {
 	AMBULANCE=0,
@@ -61,6 +64,7 @@ public:
 	void move();
 	void spawn();
 	void spawn_begin();
+	void load_collision();
 	void save();
 
 	const TypeCar &get_type() const { return m_type; };
@@ -108,4 +112,5 @@ private:
 	Position m_spawn = Position(0, 0);
 	static const uint16_t size;
 	std::vector<float> m_directions = {};
+	CollisionBox *m_collision_box = nullptr;
 };
