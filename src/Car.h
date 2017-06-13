@@ -28,13 +28,15 @@
 #include <cstdint>
 #include <SDL_rect.h>
 #include <vector>
+#include "CollisionBox.h"
 
 #define SIZE_CAR 256
 
 class SDL_Texture;
 class Map;
 class SDL_Renderer;
-class CollisionBox;
+//class CollisionBox;
+class Box;
 
 enum TypeCar : int8_t {
 	AMBULANCE=0,
@@ -101,7 +103,8 @@ public:
 
 	Map *get_map() const { return m_map; }
 
-	CollisionBox *get_collision_box() const { return m_collision_box; };
+	//CollisionBox *get_collision_box() const { return m_collision_box; };
+	Box get_box() const { return m_box; };
 
 private:
 	bool m_drive = false;
@@ -114,5 +117,6 @@ private:
 	Position m_spawn = Position(0, 0);
 	static const uint16_t size;
 	std::vector<float> m_directions = {};
-	CollisionBox *m_collision_box = nullptr;
+	//CollisionBox m_collision_box = nullptr;
+	Box m_box;
 };

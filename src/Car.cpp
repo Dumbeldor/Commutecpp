@@ -63,7 +63,9 @@ Car::Car(Car *car)
 	m_type = car->get_type();
 	m_steering = car->get_steering();
 	m_drive = car->get_drive();
-	m_collision_box = new CollisionBox(24, 72, 214, 93);
+	//m_collision_box = new CollisionBox(24, 72, 214, 93);
+	m_box.w = 214;
+	m_box.h = 93;
 }
 
 Car::~Car()
@@ -79,7 +81,9 @@ const SDL_Rect Car::get_rect() const
 void Car::load_collision()
 {
 	// A refaire
-	m_collision_box = new CollisionBox(24, 72, 214, 93);
+	//m_collision_box = new CollisionBox(24, 72, 214, 93);
+	m_box.w = 214;
+	m_box.h = 93;
 }
 
 void Car::move()
@@ -95,10 +99,12 @@ void Car::move()
 	float x = m_pos.x + (m_speed + m_override_speed) * cos(val * m_direction);
 	float y = m_pos.y + (m_speed + m_override_speed) * sin(val * m_direction);
 
-	m_collision_box->set_pos(static_cast<int>(x) + 24, static_cast<int>(y) + 72);
+	//m_collision_box->set_pos(static_cast<int>(x) + 24, static_cast<int>(y) + 72);
+	m_box.x = static_cast<int>(x) + 24;
+	m_box.y = static_cast<int>(y) + 24;
 	const std::vector<Car *> &cars = m_map->get_cars();
 	for (const Car &car : cars) {
-		if (m_collision_box->is_collision(car.get_collision_box())) {
+		if (m_box > car.get_box() && m_box < car.get_box()) {
 			std::cout << "COLLISION TO CAR " << std::endl;
 		}
 	}
