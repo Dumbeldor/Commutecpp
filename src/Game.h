@@ -35,6 +35,8 @@ public:
 	~Game();
 	void start();
 	void stop();
+	static void pause() { s_pause = !s_pause;}
+	static bool is_pause() { return s_pause; }
 
 	static const uint32_t get_time() { return s_time; };
 	static const uint32_t get_time_max() { return s_time_max; }
@@ -43,6 +45,7 @@ private:
 	void update();
 	Graphics *m_graphics = nullptr;
 	bool m_start = true;
+	static bool s_pause;
 	static uint32_t s_time;
 	static const uint32_t s_time_max = 500;
 };

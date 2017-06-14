@@ -48,6 +48,8 @@ void Event::getEvent()
 				case SDLK_RIGHT:
 					m_car->set_direction(m_car->get_direction() + m_car->get_steering());
 					break;
+				case SDLK_p:
+					Game::pause();
 
 				default:;
 			}

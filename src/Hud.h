@@ -26,10 +26,11 @@
 #pragma once
 
 class SDL_Renderer;
+class SDL_Texture;
 
 class Hud {
 public:
-	Hud() {};
+	Hud();
 	static void paint(SDL_Renderer *renderer);
 
 private:

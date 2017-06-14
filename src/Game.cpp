@@ -31,8 +31,10 @@
 #include "Hud.h"
 #include <SDL.h>
 #include <iostream>
+#include <SDL_ttf.h>
 
 uint32_t Game::s_time = 0;
+bool Game::s_pause = false;
 //uint32_t Game::s_time_max = 500;
 
 Game::~Game()
@@ -42,6 +44,7 @@ Game::~Game()
 
 void Game::start()
 {
+	TTF_Init();
 	float ntime = SDL_GetTicks();
 
 	m_graphics = new Graphics();
@@ -101,6 +104,10 @@ void Game::start()
 
 		s_time++;
 		std::cout << s_time << std::endl;
+		while (s_pause) {
+			event->getEvent();
+			SDL_Delay((1000 / 30));
+		}
 		SDL_Delay(( 1000 / 30));
 	}
 

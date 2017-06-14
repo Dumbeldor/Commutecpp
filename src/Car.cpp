@@ -86,6 +86,28 @@ void Car::load_collision()
 	m_box.h = 93;
 }
 
+bool Car::check_collision_with_car(Car *car)
+{
+	int i;
+	float SIZEX=size*0.34;
+	float SIZEY=size*0.75;
+	float ca=cos(m_direction - car->get_direction());
+	float sa=sin(m_direction-car->get_direction());
+	float cx=m_pos.x-car->get_pos().x;
+	float cy=m_pos.y-car->get_pos().y;
+	float xx=cx*cos(-car->get_direction())-cy*sin(-car->get_direction());
+	float yy=cx*sin(-car->get_direction())+cy*cos(-car->get_direction());
+	float tx[]= {-SIZEX/2, SIZEX/2,-SIZEX/2,SIZEX/2};
+	float ty[]={-SIZEY/2, SIZEY/2,SIZEY/2,-SIZEY/2};
+	for (i=0; i<4; i++) {
+		float dx=xx+ca*tx[i]-sa*ty[i];
+		float dy=yy+sa*tx[i]+ca*ty[i];
+		if (dx>=-SIZEX/2&&dx<=SIZEX/2&&dy>=-SIZEY/2&&dy<=SIZEY/2)
+			return true;
+	}
+	return false;
+}
+
 void Car::move()
 {
 	double val;
@@ -102,33 +124,53 @@ void Car::move()
 	//m_collision_box->set_pos(static_cast<int>(x) + 24, static_cast<int>(y) + 72);
 	m_box.x = static_cast<int>(x) + 24;
 	m_box.y = static_cast<int>(y) + 24;
+
+	// Check collision with other car
 	const std::vector<Car *> &cars = m_map->get_cars();
-	for (const Car &car : cars) {
-		if (m_box > car.get_box() && m_box < car.get_box()) {
-			std::cout << "COLLISION TO CAR " << std::endl;
+	for (Car *car : cars) {
+		Position pos = car->get_pos();
+
+		if (car != this && check_collision_with_car(car)) {
+			pos.x = pos.x + ((m_speed + m_override_speed) * cos(val * m_direction) * 2);
+			pos.y = pos.y + ((m_speed + m_override_speed) * sin(val * m_direction) * 2);
+			car->check_collision(x, y);
+			x = m_pos.x;
+			y = m_pos.y;
+			car->set_pos(pos);
 		}
 	}
 
-	m_override_speed = 0;
-	TypeMap **types_maps;
-	types_maps = m_map->get_types_maps();
-
-	if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == BUILDING) {
-		x = m_pos.x;
-		y = m_pos.y;
-	}
-	else if (types_maps[static_cast<int>(x+size/2)][static_cast<int>(y+size/2)] == GRASS){
-		m_override_speed = -2;
-	}
-	else {
-		if (x > m_map->get_w() || x < -size)
-			x = m_pos.x;
-		if (y > m_map->get_h() || y < -size)
-			y = m_pos.y;
-	}
+	check_collision(x, y);
 
 	m_pos.x = x;
 	m_pos.y = y;
+}
+
+bool Car::check_collision(float &x, float &y)
+{
+	m_override_speed = 0;
+	TypeMap **types_maps;
+	types_maps = m_map->get_types_maps();
+	int case_x = static_cast<int>(x+size/2);
+	int case_y = static_cast<int>(y+size/2);
+
+	if (x > m_map->get_w() - size/2 || x < -size/2)
+		x = m_pos.x;
+	if (y > m_map->get_h() - size/2 || y < -size/2)
+		y = m_pos.y;
+	else if (types_maps[case_x][case_y] != NULL && types_maps[case_x][case_y] == BUILDING) {
+		x = m_pos.x;
+		y = m_pos.y;
+	}
+	else if (types_maps[case_x][case_y] != NULL && types_maps[case_x][case_y] == GRASS){
+		m_override_speed = -2;
+	}
+	else {
+		if (x > m_map->get_w() - size / 2 || x < -size / 2)
+			x = m_pos.x;
+		if (y > m_map->get_h() - size / 2 || y < -size / 2)
+			y = m_pos.y;
+	}
 }
 
 void Car::save()
@@ -141,7 +183,7 @@ void Car::paint(SDL_Renderer *sdl_render)
 	SDL_Rect rect = get_rect();
 	SDL_RenderCopyEx(sdl_render, s_tile[m_type], NULL, &rect, m_direction, NULL, SDL_FLIP_NONE);
 
-	SDL_SetRenderDrawColor(sdl_render, 255, 0, 0, 255);
+	SDL_SetRenderDrawColor(sdl_render, 0, 255, 0, 255);
 	SDL_RenderDrawRect(sdl_render, &rect);
 
 	SDL_SetRenderDrawColor(sdl_render, 0, 255, 0, 255);

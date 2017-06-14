@@ -40,7 +40,6 @@ Map::~Map()
 	}
 	SDL_FreeSurface(m_s);
 	SDL_free(m_t);
-	delete m_s;
 }
 
 Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(graphics)

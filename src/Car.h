@@ -68,6 +68,8 @@ public:
 	void spawn_begin();
 	void load_collision();
 	void save();
+	bool check_collision(float &x, float &y);
+	bool check_collision_with_car(Car *car);
 
 	const TypeCar &get_type() const { return m_type; };
 
