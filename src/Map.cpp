@@ -71,9 +71,9 @@ void Map::loadCollision()
 {
 	int pixel = 0;
 	m_types_maps = new TypeMap*[1280];
-	for (int l = 0; l < get_w()-1; l++) {
+	for (int l = 0; l < get_w(); l++) {
 		m_types_maps[l] = new TypeMap[800];
-		for (int h = 0; h < get_h()-1; h++) {
+		for (int h = 0; h < get_h(); h++) {
 			pixel = Graphics::getpixel(m_s_collision, l, h);
 			if (pixel == 0xf00) {
 				TypeMap type(BUILDING);
