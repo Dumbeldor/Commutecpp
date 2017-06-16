@@ -28,6 +28,10 @@
 #include <cstdint>
 
 class Graphics;
+class Map;
+class Event;
+class Car;
+
 
 class Game {
 public:
@@ -37,15 +41,27 @@ public:
 	void stop();
 	static void pause() { s_pause = !s_pause;}
 	static bool is_pause() { return s_pause; }
+	static bool win(bool win = true) { s_win = win; }
+	static bool is_win() { return s_win; }
+	static void loose(bool loose = true) { s_loose = loose;}
+	static bool is_loose() { return s_loose;}
 
 	static const uint32_t get_time() { return s_time; };
 	static const uint32_t get_time_max() { return s_time_max; }
 private:
 	void getEvent();
 	void update();
+	void add_car_to_cars();
+	void respawn();
+
+	Map *m_map = nullptr;
+	Car *m_car = nullptr;
+	Event *m_event = nullptr;
 	Graphics *m_graphics = nullptr;
 	bool m_start = true;
 	static bool s_pause;
+	static bool s_win;
+	static bool s_loose;
 	static uint32_t s_time;
 	static const uint32_t s_time_max = 500;
 };

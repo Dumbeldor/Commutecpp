@@ -70,6 +70,7 @@ public:
 	void save();
 	bool check_collision(float &x, float &y);
 	bool check_collision_with_car(Car *car);
+	bool check_collision_with_rect(const SDL_Rect &rect);
 
 	const TypeCar &get_type() const { return m_type; };
 
@@ -119,6 +120,5 @@ private:
 	Position m_spawn = Position(0, 0);
 	static const uint16_t size;
 	std::vector<float> m_directions = {};
-	//CollisionBox m_collision_box = nullptr;
 	Box m_box;
 };

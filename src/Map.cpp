@@ -32,14 +32,20 @@
 Map::~Map()
 {
 	delete m_car;
-	for (const auto &car : m_cars) {
-		delete car;
-	}
 	for (int i = 0; i < CAR_MAX; i++) {
 		SDL_free(Car::s_tile[i]);
 	}
 	SDL_FreeSurface(m_s);
 	SDL_free(m_t);
+}
+
+void Map::remove_cars()
+{
+	for (auto &car : m_cars) {
+		if (car && car != m_car)
+			delete car;
+	}
+	m_cars = {};
 }
 
 Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(graphics)
@@ -104,4 +110,29 @@ void Map::loadSpawnPoint()
 			}
 		}
 	}
+}
+
+void Map::loadEndPoint()
+{
+	Point point;
+	do {
+		point = m_spawn_point[rand() % m_spawn_point.size()];
+		m_end_point.x = point.x;
+		m_end_point.y = point.y;
+	} while (m_car->get_spawn().x == m_end_point.x && m_car->get_spawn().y == m_end_point.y);
+
+	m_end_point.x -= 25;
+	m_end_point.y -= 25;
+}
+
+void Map::paint(SDL_Renderer *sdl_render)
+{
+	// Map
+	SDL_RenderCopy(sdl_render, m_t, NULL, &m_rect);
+
+	// End Point
+	SDL_SetRenderDrawColor(sdl_render, 0, 255, 255, 255);
+
+	SDL_RenderFillRect(sdl_render, &m_end_point);
+	SDL_RenderDrawRect(sdl_render, &m_end_point);
 }

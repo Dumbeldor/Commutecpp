@@ -48,7 +48,8 @@ const char *Car::s_tilenames[] = {
 SDL_Texture *Car::s_tile[CAR_MAX] = {};
 
 Car::Car(Map *map, bool drive, TypeCar type, Position pos, int speed, int sterring, float direction) : m_map(map), m_drive(drive), m_type(type), m_pos(pos), m_speed(speed),
-																				 m_steering(sterring), m_direction(direction)
+																				 m_steering(sterring), m_direction(direction),
+																				m_box(0, 0, 27, 24)
 {
 	load_collision();
 }
@@ -64,8 +65,8 @@ Car::Car(Car *car)
 	m_steering = car->get_steering();
 	m_drive = car->get_drive();
 	//m_collision_box = new CollisionBox(24, 72, 214, 93);
-	m_box.w = 214;
-	m_box.h = 93;
+	m_box.w = 27;
+	m_box.h = 94;
 }
 
 Car::~Car()
@@ -84,6 +85,23 @@ void Car::load_collision()
 	//m_collision_box = new CollisionBox(24, 72, 214, 93);
 	m_box.w = 214;
 	m_box.h = 93;
+}
+
+bool Car::check_collision_with_rect(const SDL_Rect &rect)
+{
+	m_box.x = m_pos.x + 6;
+	m_box.y = m_pos.y + 18;
+	m_box.w = 27;
+	m_box.h = 24;
+
+	if (m_box.x < rect.x + rect.w &&
+		m_box.x + m_box.w > rect.x &&
+		m_box.y < rect.y + rect.h &&
+		m_box.y + m_box.h > rect.y)
+	{
+		return true;
+	}
+	return false;
 }
 
 bool Car::check_collision_with_car(Car *car)
@@ -137,6 +155,12 @@ void Car::move()
 			m_direction = m_directions[Game::get_time()];
 		else
 			m_direction = 0;
+	}
+	else {
+		// Check end point
+		if (check_collision_with_rect(m_map->get_end_point())) {
+			Game::win();
+		}
 	}
 	float dep_x = (m_speed + m_override_speed) * cos(val * m_direction);
 	float dep_y = (m_speed + m_override_speed) * sin(val * m_direction);
@@ -224,12 +248,15 @@ void Car::spawn()
 	srand(time(nullptr));
 	std::vector<Point> spawn_point = m_map->get_spawn_point();
 	Point point = spawn_point[rand() % spawn_point.size()];
+	m_spawn.x = point.x;
+	m_spawn.y = point.y;
 	m_pos.x = point.x - size/2;
 	m_pos.y = point.y - size/2;
-	m_spawn = m_pos;
 }
 
 void Car::spawn_begin()
 {
 	m_pos = m_spawn;
+	m_pos.x -= size/2;
+	m_pos.y -= size/2;
 }

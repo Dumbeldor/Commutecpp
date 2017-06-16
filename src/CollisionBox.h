@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include "Map.h"
+
 struct Box
 {
 	int x;

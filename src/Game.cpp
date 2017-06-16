@@ -35,11 +35,16 @@
 
 uint32_t Game::s_time = 0;
 bool Game::s_pause = false;
+bool Game::s_win = false;
+bool Game::s_loose = false;
 //uint32_t Game::s_time_max = 500;
 
 Game::~Game()
 {
 	delete m_graphics;
+	delete m_car;
+	delete m_map;
+	delete m_event;
 }
 
 void Game::start()
@@ -48,51 +53,63 @@ void Game::start()
 	float ntime = SDL_GetTicks();
 
 	m_graphics = new Graphics();
-	Map *map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/circuit", 1280, 800);
+	m_map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/circuit", 1280, 800);
 
-	Car *car = new Car(map, true);
+	m_car = new Car(m_map, true);
 	cars_t cars = {};
-	map->set_car(car);
-	map->set_cars(cars);
+	m_map->set_car(m_car);
+	m_map->set_cars(cars);
 
-	m_graphics->openWindow(map);
+	m_graphics->openWindow(m_map);
 	m_graphics->loadTiles();
 
-	map->loadSpawnPoint();
+	m_map->loadSpawnPoint();
 	std::cout << "Chargement des collision" << std::endl;
-	map->loadCollision();
-	std::cout << "TEST : " << map->get_types_maps()[10][10] << std::endl;
+	m_map->loadCollision();
+	std::cout << "TEST : " << m_map->get_types_maps()[10][10] << std::endl;
 	std::cout << "Fin chargement collision" << std::endl;
-	car->spawn();
+	m_car->spawn();
+	m_map->loadEndPoint();
 
-	Event *event = new Event(this, car);
+	m_event = new Event(this, m_car);
 
 	while (m_start) {
-		if (s_time == s_time_max) {
-			car->set_drive(false);
-			car->spawn_begin();
-
-			map->get_cars().push_back(new Car(car));
-			car->set_drive(true);
-			car->set_directions();
-			car->spawn();
-			s_time = 0;
-
-			for (Car *c: map->get_cars()) {
-				c->spawn_begin();
+		if (s_loose) {
+			while (s_loose) {
+				m_event->getEvent();
+				SDL_Delay((1000 / 30));
 			}
+			std::vector<Car *> &cars = m_map->get_cars();
+			for (const auto &car : cars) {
+				delete car;
+			}
+			m_map->remove_cars();
+			respawn();
 		}
 
-		if (car->get_drive()) {
-			event->getEvent();
-			car->move();
-			car->save();
+		if (s_time == s_time_max) {
+			s_loose = true;
+		}
+
+		if (s_win) {
+			while (s_win) {
+				m_event->getEvent();
+				SDL_Delay((1000 / 30));
+			}
+			add_car_to_cars();
+			respawn();
+		}
+
+		if (m_car->get_drive()) {
+			m_event->getEvent();
+			m_car->move();
+			m_car->save();
 		}
 		else {
-			car->move();
+			m_car->move();
 		}
 
-		const std::vector<Car *> &cars = map->get_cars();
+		const std::vector<Car *> &cars = m_map->get_cars();
 		for (Car *c: cars) {
 			if (c)
 				c->move();
@@ -105,14 +122,11 @@ void Game::start()
 		s_time++;
 		std::cout << s_time << std::endl;
 		while (s_pause) {
-			event->getEvent();
+			m_event->getEvent();
 			SDL_Delay((1000 / 30));
 		}
 		SDL_Delay(( 1000 / 30));
 	}
-
-	delete map;
-	delete event;
 
 	return;
 }
@@ -125,6 +139,27 @@ void Game::update()
 void Game::stop()
 {
 	m_start = false;
+}
+
+void Game::add_car_to_cars()
+{
+	m_car->set_drive(false);
+	m_car->spawn_begin();
+
+	m_map->get_cars().push_back(new Car(m_car));
+
+	for (Car *c: m_map->get_cars()) {
+		c->spawn_begin();
+	}
+}
+
+void Game::respawn()
+{
+	m_car->set_drive(true);
+	m_car->set_directions();
+	m_car->spawn();
+	s_time = 0;
+	m_map->loadEndPoint();
 }
 
 void Game::getEvent()

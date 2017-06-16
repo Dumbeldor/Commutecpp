@@ -50,6 +50,11 @@ void Event::getEvent()
 					break;
 				case SDLK_p:
 					Game::pause();
+					break;
+				case SDLK_r:
+					Game::win(false);
+					Game::loose(false);
+					break;
 
 				default:;
 			}

@@ -36,10 +36,12 @@ class SDL_Surface;
 class Car;
 class Graphics;
 
+typedef std::vector<Car *> cars_t;
+
 struct Point {
 	int x;
 	int y;
-	Point(int x, int y) : x(x), y(y) {};
+	Point(int x = 0, int y = 0) : x(x), y(y) {};
 	bool operator==(const Point &point) const {
 		return (x == point.x && y == point.y);
 	}
@@ -51,7 +53,6 @@ enum TypeMap : uint8_t {
 	BUILDING,
 };
 
-typedef std::vector<Car *> cars_t;
 
 class Map {
 public:
@@ -59,6 +60,8 @@ public:
 	~Map();
 	void loadCollision();
 	void loadSpawnPoint();
+	void loadEndPoint();
+	void paint(SDL_Renderer *sdl_render);
 
 	const int get_w() const { return m_rect.w; };
 	const int get_h() const { return m_rect.h; };
@@ -71,6 +74,7 @@ public:
 
 	std::vector<Car *> &get_cars() { return m_cars; };
 	void set_cars(std::vector<Car *> &cars) { m_cars = cars; };
+	void remove_cars();
 
 	SDL_Rect *get_rect() { return &m_rect; };
 	SDL_Surface *get_surface() const { return m_s; };
@@ -78,6 +82,8 @@ public:
 	const std::vector<Point> &get_spawn_point() const { return m_spawn_point; };
 
 	TypeMap **get_types_maps() const { return m_types_maps;}
+
+	const SDL_Rect &get_end_point() const { return m_end_point; };
 
 private:
 	SDL_Surface *m_s = nullptr;
@@ -88,8 +94,7 @@ private:
 	std::vector<Car *> m_cars = {};
 	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;
-	//std::vector<TypeMap> m_types_maps = {};
-	//TypeMap m_types_maps[1280][800];
 	TypeMap **m_types_maps = nullptr;
-	//std::unordered_map<Point, TypeMap, point_hash> m_types_maps = {};
+	//Point m_end_point;
+	SDL_Rect m_end_point = {0, 0, 50, 50};
 };
