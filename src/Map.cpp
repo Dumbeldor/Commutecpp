@@ -41,10 +41,13 @@ Map::~Map()
 
 void Map::remove_cars()
 {
-	for (auto &car : m_cars) {
+	/*
+	for (Car *car : m_cars) {
 		if (car && car != m_car)
 			delete car;
 	}
+	 */
+	m_cars.clear();
 	m_cars = {};
 }
 

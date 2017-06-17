@@ -47,13 +47,13 @@ void Hud::paint(SDL_Renderer *renderer)
 	SDL_RenderFillRect(renderer, &rect_finish);
 
 	if (Game::is_pause()) {
-		TTF_Font *font = TTF_OpenFont("/home/vincent/CLionProjects/commutecpp/data/font/rainbow_bridge.ttf", 100);
+		TTF_Font *font = TTF_OpenFont("/home/vincent/CLionProjects/commutecpp/data/font/rainbow_bridge.ttf",300);
 		if (!font) {
 			std::cerr << "Error charge font" << std::endl;
 			exit(1);
 		}
 		SDL_Color color = {255, 255, 255};
-		SDL_Surface *surface_message = TTF_RenderText_Solid(font, "PAUSE", color);
+		SDL_Surface *surface_message = TTF_RenderText_Solid(font, "Pause", color);
 		SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, surface_message);
 		rect = {Graphics::get_w() / 2 - 600/2, Graphics::get_h() / 2 - 300/2, 600, 300};
 		SDL_RenderCopy(renderer, text, NULL, &rect);
