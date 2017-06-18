@@ -35,6 +35,7 @@ class SDL_Texture;
 class SDL_Surface;
 class Car;
 class Graphics;
+class Cop;
 
 typedef std::vector<Car *> cars_t;
 
@@ -85,12 +86,16 @@ public:
 
 	const SDL_Rect &get_end_point() const { return m_end_point; };
 
+	void set_cop(Cop *cop) { m_cop = cop; };
+	const Cop *get_cop() const { return m_cop; };
+
 private:
 	SDL_Surface *m_s = nullptr;
 	SDL_Surface *m_s_collision = nullptr;
 	SDL_Texture *m_t = nullptr;
 	SDL_Rect m_rect;
 	Car *m_car = nullptr;
+	Cop *m_cop = nullptr;
 	std::vector<Car *> m_cars = {};
 	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;

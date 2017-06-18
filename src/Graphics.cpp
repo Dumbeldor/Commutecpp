@@ -28,6 +28,7 @@
 #include "Graphics.h"
 #include "Map.h"
 #include "Car.h"
+#include "Cop.h"
 #include "Hud.h"
 
 int Graphics::s_h = 0;
@@ -84,6 +85,11 @@ void Graphics::paint()
 
 	// Car drive
 	m_map->get_car()->paint(m_r);
+
+	// Cop
+	const Cop *cop = m_map->get_cop();
+	if (cop)
+		m_map->get_cop()->paint(m_r);
 
 	// Other car
 	const std::vector<Car *> &m_cars = m_map->get_cars();

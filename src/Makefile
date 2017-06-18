@@ -225,6 +225,33 @@ CollisionBox.cpp.s:
 	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/CollisionBox.cpp.s
 .PHONY : CollisionBox.cpp.s
 
+Cop.o: Cop.cpp.o
+
+.PHONY : Cop.o
+
+# target to build an object file
+Cop.cpp.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.cpp.o
+.PHONY : Cop.cpp.o
+
+Cop.i: Cop.cpp.i
+
+.PHONY : Cop.i
+
+# target to preprocess a source file
+Cop.cpp.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.cpp.i
+.PHONY : Cop.cpp.i
+
+Cop.s: Cop.cpp.s
+
+.PHONY : Cop.s
+
+# target to generate assembly for a file
+Cop.cpp.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.cpp.s
+.PHONY : Cop.cpp.s
+
 Event.o: Event.cpp.o
 
 .PHONY : Event.o
@@ -406,6 +433,9 @@ help:
 	@echo "... CollisionBox.o"
 	@echo "... CollisionBox.i"
 	@echo "... CollisionBox.s"
+	@echo "... Cop.o"
+	@echo "... Cop.i"
+	@echo "... Cop.s"
 	@echo "... Event.o"
 	@echo "... Event.i"
 	@echo "... Event.s"

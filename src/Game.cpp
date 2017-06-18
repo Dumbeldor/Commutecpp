@@ -29,6 +29,7 @@
 #include "Car.h"
 #include "Map.h"
 #include "Hud.h"
+#include "Cop.h"
 #include <SDL.h>
 #include <iostream>
 #include <SDL_ttf.h>
@@ -70,6 +71,7 @@ void Game::start()
 	std::cout << "Fin chargement collision" << std::endl;
 	m_car->spawn();
 	m_map->loadEndPoint();
+	Cop *cop = nullptr;
 
 	m_event = new Event(this, m_car);
 
@@ -98,6 +100,10 @@ void Game::start()
 			}
 			add_car_to_cars();
 			respawn();
+			if (!cop)
+				delete cop;
+			cop = new Cop(m_car);
+			m_map->set_cop(cop);
 		}
 
 		if (m_car->get_drive()) {
@@ -115,6 +121,10 @@ void Game::start()
 				c->move();
 		}
 
+		if (!cop) {
+			cop->move_test();
+		}
+
 		m_graphics->paint();
 
 		m_graphics->render();
@@ -127,6 +137,7 @@ void Game::start()
 		}
 		SDL_Delay(( 1000 / 30));
 	}
+	delete cop;
 
 	return;
 }

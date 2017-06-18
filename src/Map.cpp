@@ -28,6 +28,7 @@
 #include "Map.h"
 #include "Graphics.h"
 #include "Car.h"
+#include "Cop.h"
 
 Map::~Map()
 {

@@ -62,7 +62,7 @@ public:
 	Car(Map *map, bool drive = false, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 4, int sterring = 3, float direction = 0.0f);
 	Car(Car *car);
 	~Car();
-	void paint(SDL_Renderer *sdl_render);
+	void paint(SDL_Renderer *sdl_render) const;
 	void move();
 	void spawn();
 	void spawn_begin();

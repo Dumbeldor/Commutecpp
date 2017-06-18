@@ -230,7 +230,7 @@ void Car::save()
 	m_directions.push_back(m_direction);
 }
 
-void Car::paint(SDL_Renderer *sdl_render)
+void Car::paint(SDL_Renderer *sdl_render) const
 {
 	SDL_Rect rect = get_rect();
 	SDL_RenderCopyEx(sdl_render, s_tile[m_type], NULL, &rect, m_direction, NULL, SDL_FLIP_NONE);
