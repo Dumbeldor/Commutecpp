@@ -37,6 +37,7 @@ class Map;
 class SDL_Renderer;
 //class CollisionBox;
 class Box;
+class Mix_Chunk;
 
 enum TypeCar : int8_t {
 	AMBULANCE=0,
@@ -109,10 +110,14 @@ public:
 
 	Map *get_map() const { return m_map; }
 
+	static void load_punch();
+	static Mix_Chunk *get_punch() { return s_punch; }
+
 	//CollisionBox *get_collision_box() const { return m_collision_box; };
 	Box get_box() const { return m_box; };
 
 private:
+	static Mix_Chunk *s_punch;
 	bool m_drive = false;
 	TypeCar m_type = VIPER;
 	int m_speed = 2, m_steering = 2;

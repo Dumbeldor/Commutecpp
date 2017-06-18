@@ -63,12 +63,17 @@ void Game::start()
 	{
 		std::cout << "Error to charge mix : " << Mix_GetError();
 	}
+
+	Mix_AllocateChannels(5);
+
 	Mix_Music *music = nullptr;
 	music = Mix_LoadMUS("/home/vincent/CLionProjects/commutecpp/data/sound/musique.mp3");
+
 	Mix_PlayMusic(music, -1);
 	Mix_VolumeMusic(s_volume);
 
 	m_car = new Car(m_map, true);
+	Car::load_punch();
 	cars_t cars = {};
 	m_map->set_car(m_car);
 	m_map->set_cars(cars);
@@ -159,6 +164,7 @@ void Game::start()
 	delete cop;
 
 	Mix_FreeMusic(music);
+	Mix_FreeChunk(Car::get_punch());
 	Mix_CloseAudio();
 	return;
 }

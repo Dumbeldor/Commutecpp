@@ -29,10 +29,12 @@
 #include "Graphics.h"
 #include "Game.h"
 #include "CollisionBox.h"
+#include <SDL_mixer.h>
 
 #define PI 3.14159265
 
 const uint16_t Car::size = 64;
+Mix_Chunk *Car::s_punch = nullptr;
 
 const char *Car::s_tilenames[] = {
 		"/home/vincent/CLionProjects/commutecpp/data/ambulance.bmp",
@@ -46,6 +48,11 @@ const char *Car::s_tilenames[] = {
 		"/home/vincent/CLionProjects/commutecpp/data/viper.bmp"
 };
 SDL_Texture *Car::s_tile[CAR_MAX] = {};
+
+void Car::load_punch()
+{
+	s_punch = Mix_LoadWAV("/home/vincent/CLionProjects/commutecpp/data/sound/punch.mp3");
+}
 
 Car::Car(Map *map, bool drive, TypeCar type, Position pos, int speed, int sterring, float direction) : m_map(map), m_drive(drive), m_type(type), m_pos(pos), m_speed(speed),
 																				 m_steering(sterring), m_direction(direction),
@@ -187,6 +194,7 @@ void Car::move()
 			if (time > 100 && time < 429467294 && ((m_type == POLICE && car->get_drive()) || m_drive && car->get_type() == POLICE)) {
 				Game::set_arrest(true);
 			}
+			Mix_PlayChannel(2, s_punch, 0);
 			pos.x = pos.x + ((m_speed + m_override_speed) * cos(val * m_direction) * 2);
 			pos.y = pos.y + ((m_speed + m_override_speed) * sin(val * m_direction) * 2);
 			car->check_collision(pos.x, pos.y);

@@ -29,6 +29,15 @@
 #include "Game.h"
 #include "Car.h"
 
+Event::Event(Game *game, Car *car) : m_game(game), m_car(car), m_horn(Mix_LoadWAV("/home/vincent/CLionProjects/commutecpp/data/sound/horn.mp3"))
+{
+}
+
+Event::~Event()
+{
+	Mix_FreeChunk(m_horn);
+}
+
 void Event::getEvent()
 {
 	SDL_Event event;
@@ -48,6 +57,9 @@ void Event::getEvent()
 					break;
 				case SDLK_RIGHT:
 					m_car->set_direction(m_car->get_direction() + m_car->get_steering());
+					break;
+				case SDLK_k:
+					Mix_PlayChannel(1, m_horn, 0);
 					break;
 				case SDLK_p:
 					Game::pause();

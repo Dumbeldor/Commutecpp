@@ -27,13 +27,16 @@
 
 class Game;
 class Car;
+class Mix_Chunk;
 
 class Event {
 public:
-	Event(Game *game, Car *car) : m_game(game), m_car(car) {};
+	Event(Game *game, Car *car);
+	~Event();
 	void getEvent();
 
 private:
 	Game *m_game = nullptr;
 	Car *m_car = nullptr;
+	Mix_Chunk *m_horn = nullptr;
 };
