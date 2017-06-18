@@ -88,7 +88,8 @@ void Game::start()
 				delete car;
 			}
 			m_map->remove_cars();
-			delete cop;
+			if (cop)
+				delete cop;
 			respawn();
 		}
 
