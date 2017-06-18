@@ -184,7 +184,7 @@ void Car::move()
 
 	// Check collision with other car
 	std::vector<Car *> &cars = m_map->get_cars();
-	if (m_map->get_cop())
+	if (time > 100 && m_map->get_cop())
 		cars.push_back((Car *) m_map->get_cop());
 	for (Car *car : cars) {
 		Position pos = car->get_pos();
@@ -203,7 +203,7 @@ void Car::move()
 			car->set_pos(pos);
 		}
 	}
-	if (m_map->get_cop())
+	if (time > 100 && m_map->get_cop())
 		cars.pop_back();
 
 	check_collision(x, y);

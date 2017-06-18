@@ -104,8 +104,11 @@ void Game::start()
 				delete car;
 			}
 			m_map->remove_cars();
-			if (cop)
+			if (cop) {
 				delete cop;
+				cop = nullptr;
+				m_map->set_cop(cop);
+			}
 			respawn();
 		}
 
@@ -121,8 +124,11 @@ void Game::start()
 			s_time = 0;
 			add_car_to_cars();
 			respawn();
-			if (cop)
+			if (cop) {
 				delete cop;
+				cop = nullptr;
+				m_map->set_cop(cop);
+			}
 			cop = new Cop(m_car);
 			cop->set_type(POLICE);
 			cop->set_drive(false);
