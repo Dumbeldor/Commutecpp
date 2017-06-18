@@ -23,12 +23,30 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <SDL_mixer.h>
 #include "Cop.h"
 #include "Game.h"
+
+Mix_Chunk *Cop::s_siren = nullptr;
 
 Cop::Cop(Map *map, bool drive, TypeCar type, Position pos, int speed, int sterring, float direction) :
 		Car(map, drive, POLICE, pos, speed, sterring, direction)
 {
+}
+
+Cop::~Cop()
+{
+	Mix_Pause(3);
+}
+
+void Cop::load_siren()
+{
+	s_siren = Mix_LoadWAV("/home/vincent/CLionProjects/commutecpp/data/sound/police_siren.mp3");
+	if (s_siren) {
+		Mix_PlayChannel(3, s_siren, -1);
+		Mix_Volume(3, MIX_MAX_VOLUME/5);
+		Mix_Pause(3);
+	}
 }
 
 void Cop::move()
@@ -38,6 +56,8 @@ void Cop::move()
 	}
 	else {
 		Car::move();
+		if (Mix_Paused(3))
+			Mix_Resume(3);
 	}
 }
 

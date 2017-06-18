@@ -89,11 +89,13 @@ void Game::start()
 	m_car->spawn();
 	m_map->loadEndPoint();
 	Cop *cop = nullptr;
+	Cop::load_siren();
 
 	m_event = new Event(this, m_car);
 
 	while (m_start) {
 		if (s_loose || s_arrest) {
+			Mix_Pause(3);
 			while (s_loose || s_arrest) {
 				m_event->getEvent();
 				SDL_Delay((1000 / 30));
@@ -117,6 +119,7 @@ void Game::start()
 		}
 
 		if (s_win) {
+			Mix_Pause(3);
 			while (s_win) {
 				m_event->getEvent();
 				SDL_Delay((1000 / 30));
@@ -171,6 +174,7 @@ void Game::start()
 
 	Mix_FreeMusic(music);
 	Mix_FreeChunk(Car::get_punch());
+	Mix_FreeChunk(Cop::get_siren());
 	Mix_CloseAudio();
 	return;
 }
@@ -178,6 +182,11 @@ void Game::start()
 void Game::update()
 {
 
+}
+
+void Game::pause()
+{
+	Mix_Pause(3);
 }
 
 void Game::stop()

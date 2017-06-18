@@ -39,7 +39,7 @@ public:
 	~Game();
 	void start();
 	void stop();
-	static void pause() { s_pause = !s_pause;}
+	static void pause();
 	static bool is_pause() { return s_pause; }
 	static bool win(bool win = true) { s_win = win; }
 	static bool is_win() { return s_win; }

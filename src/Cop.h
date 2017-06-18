@@ -31,7 +31,13 @@ class Cop : public Car {
 public:
 	Cop(Map *map, bool drive = false, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 4, int sterring = 3, float direction = 0.0f);
 	Cop(Car *car) : Car(car){}
-	~Cop() {};
+	~Cop();
 	void move();
+
+	static Mix_Chunk *get_siren() { return s_siren; }
+	static void load_siren();
+
+private:
+	static Mix_Chunk *s_siren;
 
 };
