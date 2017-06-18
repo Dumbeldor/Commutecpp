@@ -1,0 +1,11 @@
+src/Makefile
+.idea/*
+CMakeFiles/
+Makefile
+bin/*
+cmake-build-debug/*
+cmake_install.cmake
+commutecpp.cbp
+src/CMakeFiles/*
+src/cmake_install.cmake
+CMakeCache.txt
