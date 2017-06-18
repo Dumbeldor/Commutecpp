@@ -33,12 +33,14 @@
 #include <SDL.h>
 #include <iostream>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 uint32_t Game::s_time = 0;
 bool Game::s_pause = false;
 bool Game::s_win = false;
 bool Game::s_loose = false;
 bool Game::s_arrest = false;
+uint32_t Game::s_volume = MIX_MAX_VOLUME / 4;
 //uint32_t Game::s_time_max = 500;
 
 Game::~Game()
@@ -56,6 +58,15 @@ void Game::start()
 
 	m_graphics = new Graphics();
 	m_map = new Map(m_graphics, "/home/vincent/CLionProjects/commutecpp/data/circuit", 1280, 800);
+
+	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+	{
+		std::cout << "Error to charge mix : " << Mix_GetError();
+	}
+	Mix_Music *music = nullptr;
+	music = Mix_LoadMUS("/home/vincent/CLionProjects/commutecpp/data/sound/musique.mp3");
+	Mix_PlayMusic(music, -1);
+	Mix_VolumeMusic(s_volume);
 
 	m_car = new Car(m_map, true);
 	cars_t cars = {};
@@ -147,6 +158,8 @@ void Game::start()
 	}
 	delete cop;
 
+	Mix_FreeMusic(music);
+	Mix_CloseAudio();
 	return;
 }
 

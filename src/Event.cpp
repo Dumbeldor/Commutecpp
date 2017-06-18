@@ -24,6 +24,7 @@
  */
 
 #include <SDL_events.h>
+#include <SDL_mixer.h>
 #include "Event.h"
 #include "Game.h"
 #include "Car.h"
@@ -55,6 +56,23 @@ void Event::getEvent()
 					Game::win(false);
 					Game::loose(false);
 					Game::set_arrest(false);
+					break;
+
+				case SDLK_UP:
+					Game::set_volume(Game::get_volume() + 1);
+					Mix_VolumeMusic(Game::get_volume());
+					break;
+				case SDLK_DOWN:
+					Game::set_volume(Game::get_volume() - 1);
+					Mix_VolumeMusic(Game::get_volume());
+					break;
+
+				case SDLK_m:
+					std::cout << "PAUSED" << std::endl;
+					if (Mix_PausedMusic())
+						Mix_ResumeMusic();
+					else
+						Mix_PauseMusic();
 					break;
 
 				default:;

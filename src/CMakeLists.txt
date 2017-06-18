@@ -5,7 +5,7 @@ include_directories(
 set(SOURCE_FILES main.cpp Game.cpp Graphics.cpp Event.cpp Map.cpp Car.cpp Hud.cpp CollisionBox.cpp Cop.cpp)
 set(SDL2_INCLUDE_DIR /usr/include/SDL2)
 set(SDL2_LIBRARY /usr/lib/libSDL2.so)
-set(LIBRARY m sndfile SDL2_ttf)
+set(LIBRARY m sndfile SDL2_ttf SDL2_mixer)
 
 if (ENABLE_UNITTESTS)
     message("-- Unittests enabled")
