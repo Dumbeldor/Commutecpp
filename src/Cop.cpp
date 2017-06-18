@@ -31,12 +31,13 @@ Cop::Cop(Map *map, bool drive, TypeCar type, Position pos, int speed, int sterri
 {
 }
 
-void Cop::move_test()
+void Cop::move()
 {
-	if (Game::get_time() < 20) {
+	if (Game::get_time() < 100) {
 
 	}
 	else {
-		move();
+		Car::move();
 	}
 }
+

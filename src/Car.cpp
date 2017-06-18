@@ -150,9 +150,13 @@ void Car::move()
 {
 	double val;
 	val = PI / 180.0;
+	uint32_t time = Game::get_time()-1;
 	if (!m_drive) {
-		if (m_directions.size() > Game::get_time()-1)
-			m_direction = m_directions[Game::get_time()];
+		if (m_type == POLICE) {
+			time -= 100;
+		}
+		if (m_directions.size() > time)
+			m_direction = m_directions[time];
 		else
 			m_direction = 0;
 	}
@@ -172,11 +176,17 @@ void Car::move()
 	m_box.y = static_cast<int>(y) + 24;
 
 	// Check collision with other car
-	const std::vector<Car *> &cars = m_map->get_cars();
+	std::vector<Car *> &cars = m_map->get_cars();
+	if (m_map->get_cop())
+		cars.push_back((Car *) m_map->get_cop());
 	for (Car *car : cars) {
 		Position pos = car->get_pos();
 
 		if (car != this && check_collision_with_car(car)) {
+			// Police arrest car
+			if (time > 100 && time < 429467294 && ((m_type == POLICE && car->get_drive()) || m_drive && car->get_type() == POLICE)) {
+				Game::set_arrest(true);
+			}
 			pos.x = pos.x + ((m_speed + m_override_speed) * cos(val * m_direction) * 2);
 			pos.y = pos.y + ((m_speed + m_override_speed) * sin(val * m_direction) * 2);
 			car->check_collision(pos.x, pos.y);
@@ -185,6 +195,8 @@ void Car::move()
 			car->set_pos(pos);
 		}
 	}
+	if (m_map->get_cop())
+		cars.pop_back();
 
 	check_collision(x, y);
 

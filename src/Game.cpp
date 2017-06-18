@@ -38,6 +38,7 @@ uint32_t Game::s_time = 0;
 bool Game::s_pause = false;
 bool Game::s_win = false;
 bool Game::s_loose = false;
+bool Game::s_arrest = false;
 //uint32_t Game::s_time_max = 500;
 
 Game::~Game()
@@ -76,16 +77,18 @@ void Game::start()
 	m_event = new Event(this, m_car);
 
 	while (m_start) {
-		if (s_loose) {
-			while (s_loose) {
+		if (s_loose || s_arrest) {
+			while (s_loose || s_arrest) {
 				m_event->getEvent();
 				SDL_Delay((1000 / 30));
 			}
+			s_time = 0;
 			std::vector<Car *> &cars = m_map->get_cars();
 			for (const auto &car : cars) {
 				delete car;
 			}
 			m_map->remove_cars();
+			delete cop;
 			respawn();
 		}
 
@@ -98,11 +101,14 @@ void Game::start()
 				m_event->getEvent();
 				SDL_Delay((1000 / 30));
 			}
+			s_time = 0;
 			add_car_to_cars();
 			respawn();
-			if (!cop)
+			if (cop)
 				delete cop;
 			cop = new Cop(m_car);
+			cop->set_type(POLICE);
+			cop->set_drive(false);
 			m_map->set_cop(cop);
 		}
 
@@ -121,8 +127,9 @@ void Game::start()
 				c->move();
 		}
 
-		if (!cop) {
-			cop->move_test();
+		if (cop) {
+			cop->set_directions_(m_car->get_directions());
+			cop->move();
 		}
 
 		m_graphics->paint();
@@ -158,6 +165,7 @@ void Game::add_car_to_cars()
 	m_car->spawn_begin();
 
 	m_map->get_cars().push_back(new Car(m_car));
+	m_car->set_direction(0.0f);
 
 	for (Car *c: m_map->get_cars()) {
 		c->spawn_begin();
@@ -169,7 +177,6 @@ void Game::respawn()
 	m_car->set_drive(true);
 	m_car->set_directions();
 	m_car->spawn();
-	s_time = 0;
 	m_map->loadEndPoint();
 }
 

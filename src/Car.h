@@ -76,6 +76,8 @@ public:
 
 	const SDL_Rect get_rect() const;
 
+	void set_type(TypeCar type) { m_type = type; }
+
 	void set_direction(float direction) { m_direction = direction;}
 	const float get_direction() const { return m_direction; };
 
@@ -101,7 +103,8 @@ public:
 
 	Position get_spawn() const { return m_spawn; }
 
-	std::vector<float> get_directions() const { return m_directions; }
+	std::vector<float> &get_directions() { return m_directions; }
+	void set_directions_(std::vector<float> &directions) { m_directions = directions;}
 	void set_directions(std::vector<float> directions = {}) { m_directions = directions;}
 
 	Map *get_map() const { return m_map; }

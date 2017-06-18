@@ -54,6 +54,7 @@ void Event::getEvent()
 				case SDLK_r:
 					Game::win(false);
 					Game::loose(false);
+					Game::set_arrest(false);
 					break;
 
 				default:;

@@ -68,18 +68,6 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -102,6 +90,28 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -113,16 +123,6 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -171,248 +171,140 @@ commutecpp/fast:
 	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/build
 .PHONY : commutecpp/fast
 
-Car.o: Car.cpp.o
-
+# target to build an object file
+Car.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Car.o
 .PHONY : Car.o
 
-# target to build an object file
-Car.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Car.cpp.o
-.PHONY : Car.cpp.o
-
-Car.i: Car.cpp.i
-
+# target to preprocess a source file
+Car.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Car.i
 .PHONY : Car.i
 
-# target to preprocess a source file
-Car.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Car.cpp.i
-.PHONY : Car.cpp.i
-
-Car.s: Car.cpp.s
-
+# target to generate assembly for a file
+Car.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Car.s
 .PHONY : Car.s
 
-# target to generate assembly for a file
-Car.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Car.cpp.s
-.PHONY : Car.cpp.s
-
-CollisionBox.o: CollisionBox.cpp.o
-
+# target to build an object file
+CollisionBox.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/CollisionBox.o
 .PHONY : CollisionBox.o
 
-# target to build an object file
-CollisionBox.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/CollisionBox.cpp.o
-.PHONY : CollisionBox.cpp.o
-
-CollisionBox.i: CollisionBox.cpp.i
-
+# target to preprocess a source file
+CollisionBox.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/CollisionBox.i
 .PHONY : CollisionBox.i
 
-# target to preprocess a source file
-CollisionBox.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/CollisionBox.cpp.i
-.PHONY : CollisionBox.cpp.i
-
-CollisionBox.s: CollisionBox.cpp.s
-
+# target to generate assembly for a file
+CollisionBox.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/CollisionBox.s
 .PHONY : CollisionBox.s
 
-# target to generate assembly for a file
-CollisionBox.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/CollisionBox.cpp.s
-.PHONY : CollisionBox.cpp.s
-
-Cop.o: Cop.cpp.o
-
+# target to build an object file
+Cop.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.o
 .PHONY : Cop.o
 
-# target to build an object file
-Cop.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.cpp.o
-.PHONY : Cop.cpp.o
-
-Cop.i: Cop.cpp.i
-
+# target to preprocess a source file
+Cop.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.i
 .PHONY : Cop.i
 
-# target to preprocess a source file
-Cop.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.cpp.i
-.PHONY : Cop.cpp.i
-
-Cop.s: Cop.cpp.s
-
+# target to generate assembly for a file
+Cop.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.s
 .PHONY : Cop.s
 
-# target to generate assembly for a file
-Cop.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Cop.cpp.s
-.PHONY : Cop.cpp.s
-
-Event.o: Event.cpp.o
-
+# target to build an object file
+Event.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Event.o
 .PHONY : Event.o
 
-# target to build an object file
-Event.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Event.cpp.o
-.PHONY : Event.cpp.o
-
-Event.i: Event.cpp.i
-
+# target to preprocess a source file
+Event.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Event.i
 .PHONY : Event.i
 
-# target to preprocess a source file
-Event.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Event.cpp.i
-.PHONY : Event.cpp.i
-
-Event.s: Event.cpp.s
-
+# target to generate assembly for a file
+Event.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Event.s
 .PHONY : Event.s
 
-# target to generate assembly for a file
-Event.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Event.cpp.s
-.PHONY : Event.cpp.s
-
-Game.o: Game.cpp.o
-
+# target to build an object file
+Game.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Game.o
 .PHONY : Game.o
 
-# target to build an object file
-Game.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Game.cpp.o
-.PHONY : Game.cpp.o
-
-Game.i: Game.cpp.i
-
+# target to preprocess a source file
+Game.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Game.i
 .PHONY : Game.i
 
-# target to preprocess a source file
-Game.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Game.cpp.i
-.PHONY : Game.cpp.i
-
-Game.s: Game.cpp.s
-
+# target to generate assembly for a file
+Game.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Game.s
 .PHONY : Game.s
 
-# target to generate assembly for a file
-Game.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Game.cpp.s
-.PHONY : Game.cpp.s
-
-Graphics.o: Graphics.cpp.o
-
+# target to build an object file
+Graphics.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Graphics.o
 .PHONY : Graphics.o
 
-# target to build an object file
-Graphics.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Graphics.cpp.o
-.PHONY : Graphics.cpp.o
-
-Graphics.i: Graphics.cpp.i
-
+# target to preprocess a source file
+Graphics.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Graphics.i
 .PHONY : Graphics.i
 
-# target to preprocess a source file
-Graphics.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Graphics.cpp.i
-.PHONY : Graphics.cpp.i
-
-Graphics.s: Graphics.cpp.s
-
+# target to generate assembly for a file
+Graphics.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Graphics.s
 .PHONY : Graphics.s
 
-# target to generate assembly for a file
-Graphics.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Graphics.cpp.s
-.PHONY : Graphics.cpp.s
-
-Hud.o: Hud.cpp.o
-
+# target to build an object file
+Hud.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Hud.o
 .PHONY : Hud.o
 
-# target to build an object file
-Hud.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Hud.cpp.o
-.PHONY : Hud.cpp.o
-
-Hud.i: Hud.cpp.i
-
+# target to preprocess a source file
+Hud.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Hud.i
 .PHONY : Hud.i
 
-# target to preprocess a source file
-Hud.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Hud.cpp.i
-.PHONY : Hud.cpp.i
-
-Hud.s: Hud.cpp.s
-
+# target to generate assembly for a file
+Hud.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Hud.s
 .PHONY : Hud.s
 
-# target to generate assembly for a file
-Hud.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Hud.cpp.s
-.PHONY : Hud.cpp.s
-
-Map.o: Map.cpp.o
-
+# target to build an object file
+Map.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Map.o
 .PHONY : Map.o
 
-# target to build an object file
-Map.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Map.cpp.o
-.PHONY : Map.cpp.o
-
-Map.i: Map.cpp.i
-
+# target to preprocess a source file
+Map.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Map.i
 .PHONY : Map.i
 
-# target to preprocess a source file
-Map.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Map.cpp.i
-.PHONY : Map.cpp.i
-
-Map.s: Map.cpp.s
-
+# target to generate assembly for a file
+Map.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Map.s
 .PHONY : Map.s
 
-# target to generate assembly for a file
-Map.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/Map.cpp.s
-.PHONY : Map.cpp.s
-
-main.o: main.cpp.o
-
+# target to build an object file
+main.o:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/main.o
 .PHONY : main.o
 
-# target to build an object file
-main.cpp.o:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/main.cpp.o
-.PHONY : main.cpp.o
-
-main.i: main.cpp.i
-
+# target to preprocess a source file
+main.i:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/main.i
 .PHONY : main.i
 
-# target to preprocess a source file
-main.cpp.i:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
-.PHONY : main.s
-
 # target to generate assembly for a file
-main.cpp.s:
-	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/main.cpp.s
-.PHONY : main.cpp.s
+main.s:
+	cd /home/vincent/CLionProjects/commutecpp && $(MAKE) -f src/CMakeFiles/commutecpp.dir/build.make src/CMakeFiles/commutecpp.dir/main.s
+.PHONY : main.s
 
 # Help Target
 help:
@@ -421,12 +313,12 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... install/local"
-	@echo "... commutecpp"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... install"
 	@echo "... list_install_components"
+	@echo "... install/local"
+	@echo "... commutecpp"
+	@echo "... install"
 	@echo "... Car.o"
 	@echo "... Car.i"
 	@echo "... Car.s"

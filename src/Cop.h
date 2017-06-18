@@ -32,6 +32,6 @@ public:
 	Cop(Map *map, bool drive = false, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 4, int sterring = 3, float direction = 0.0f);
 	Cop(Car *car) : Car(car){}
 	~Cop() {};
-	void move_test();
+	void move();
 
 };

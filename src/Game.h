@@ -45,6 +45,8 @@ public:
 	static bool is_win() { return s_win; }
 	static void loose(bool loose = true) { s_loose = loose;}
 	static bool is_loose() { return s_loose;}
+	static void set_arrest(bool arrest = true) { s_arrest = arrest; }
+	static bool is_arrest() { return s_arrest; }
 
 	static const uint32_t get_time() { return s_time; };
 	static const uint32_t get_time_max() { return s_time_max; }
@@ -62,6 +64,7 @@ private:
 	static bool s_pause;
 	static bool s_win;
 	static bool s_loose;
+	static bool s_arrest;
 	static uint32_t s_time;
 	static const uint32_t s_time_max = 500;
 };
