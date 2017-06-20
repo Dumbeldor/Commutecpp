@@ -186,7 +186,12 @@ void Game::update()
 
 void Game::pause()
 {
+	s_pause = !s_pause;
 	Mix_Pause(3);
+	if (Mix_PausedMusic())
+		Mix_ResumeMusic();
+	else
+		Mix_PauseMusic();
 }
 
 void Game::stop()

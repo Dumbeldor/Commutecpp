@@ -87,7 +87,7 @@ void Graphics::paint()
 	m_map->get_car()->paint(m_r);
 
 	// Cop
-	const Cop *cop = m_map->get_cop();
+	Cop *cop = m_map->get_cop();
 	if (cop)
 		m_map->get_cop()->paint(m_r);
 

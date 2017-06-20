@@ -45,6 +45,8 @@ const char *Car::s_tilenames[] = {
 		"/home/vincent/CLionProjects/commutecpp/data/truck.bmp",
 		"/home/vincent/CLionProjects/commutecpp/data/car.bmp",
 		"/home/vincent/CLionProjects/commutecpp/data/police.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/police2.bmp",
+		"/home/vincent/CLionProjects/commutecpp/data/police3.bmp",
 		"/home/vincent/CLionProjects/commutecpp/data/viper.bmp"
 };
 SDL_Texture *Car::s_tile[CAR_MAX] = {};

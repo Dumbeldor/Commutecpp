@@ -24,6 +24,7 @@
  */
 
 #include <SDL_mixer.h>
+#include <SDL_render.h>
 #include "Cop.h"
 #include "Game.h"
 
@@ -59,5 +60,11 @@ void Cop::move()
 		if (Mix_Paused(3))
 			Mix_Resume(3);
 	}
+}
+
+void Cop::paint(SDL_Renderer *sdl_render)
+{
+	SDL_Rect rect = get_rect();
+	SDL_RenderCopyEx(sdl_render, s_tile[m_type], NULL, &rect, m_direction, NULL, SDL_FLIP_NONE);
 }
 

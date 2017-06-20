@@ -48,6 +48,8 @@ enum TypeCar : int8_t {
 	TRUCK,
 	CAR,
 	POLICE,
+	POLICE2,
+	POLICE3,
 	VIPER,
 	CAR_MAX
 };
@@ -116,7 +118,7 @@ public:
 	//CollisionBox *get_collision_box() const { return m_collision_box; };
 	Box get_box() const { return m_box; };
 
-private:
+protected:
 	static Mix_Chunk *s_punch;
 	bool m_drive = false;
 	TypeCar m_type = VIPER;

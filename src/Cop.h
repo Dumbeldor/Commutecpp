@@ -32,6 +32,7 @@ public:
 	Cop(Map *map, bool drive = false, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 4, int sterring = 3, float direction = 0.0f);
 	Cop(Car *car) : Car(car){}
 	~Cop();
+	void paint(SDL_Renderer *sdl_renderer);
 	void move();
 
 	static Mix_Chunk *get_siren() { return s_siren; }
@@ -39,5 +40,5 @@ public:
 
 private:
 	static Mix_Chunk *s_siren;
-
+	uint8_t m_num_stripe = 0;
 };
