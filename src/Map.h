@@ -36,6 +36,7 @@ class SDL_Surface;
 class Car;
 class Graphics;
 class Cop;
+class Mix_Chunx;
 
 typedef std::vector<Car *> cars_t;
 
@@ -52,6 +53,23 @@ enum TypeMap : uint8_t {
 	ROAD=0,
 	GRASS,
 	BUILDING,
+	TRAIN,
+};
+
+enum TypeBonus : uint8_t {
+	BONUS_SPEED=0,
+	BONUS_INVINCIBLE,
+	BONUS_ANTI_POLICE
+};
+
+struct Bonus {
+	TypeBonus type = BONUS_SPEED;
+	SDL_Rect rect;
+	uint8_t speed;
+	uint16_t time;
+
+	Bonus(TypeBonus type_, SDL_Rect rect_, int speed_ = 2, int time_ = 50) :
+			type(type_), rect(rect_), speed(speed_), time(time_) {};
 };
 
 
@@ -59,10 +77,13 @@ class Map {
 public:
 	Map(Graphics *graphics, const std::string &map, int w, int h);
 	~Map();
+	void loadTiles();
 	void loadCollision();
 	void loadSpawnPoint();
 	void loadEndPoint();
+	void loadBonus();
 	void paint(SDL_Renderer *sdl_render);
+	static void loadSound();
 
 	const int get_w() const { return m_rect.w; };
 	const int get_h() const { return m_rect.h; };
@@ -89,9 +110,14 @@ public:
 	void set_cop(Cop *cop) { m_cop = cop; };
 	Cop *get_cop() const { return m_cop; };
 
+	std::vector<Bonus> &get_bonus() { return m_bonus; }
+
 private:
+	//static Mix_Chunx *s_train;
 	SDL_Surface *m_s = nullptr;
 	SDL_Surface *m_s_collision = nullptr;
+	SDL_Surface *m_s_batman = nullptr;
+	SDL_Texture *m_batman = nullptr;
 	SDL_Texture *m_t = nullptr;
 	SDL_Rect m_rect;
 	Car *m_car = nullptr;
@@ -100,6 +126,7 @@ private:
 	std::vector<Point> m_spawn_point = {};
 	Graphics *m_graphics = nullptr;
 	TypeMap **m_types_maps = nullptr;
+	std::vector<Bonus> m_bonus;
 	//Point m_end_point;
 	SDL_Rect m_end_point = {0, 0, 50, 50};
 };

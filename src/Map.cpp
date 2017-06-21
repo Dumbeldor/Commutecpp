@@ -25,10 +25,13 @@
 
 #include <SDL_surface.h>
 #include <SDL_render.h>
+#include <SDL_mixer.h>
 #include "Map.h"
 #include "Graphics.h"
 #include "Car.h"
 #include "Cop.h"
+
+//Mix_Chunk *Map::s_train = nullptr;
 
 Map::~Map()
 {
@@ -70,11 +73,26 @@ Map::Map(Graphics *graphics, const std::string &map, int w, int h) : m_graphics(
 		m_t = SDL_CreateTextureFromSurface(m_graphics->get_renderer(), m_s);
 	}
 
+	m_s_batman = SDL_LoadBMP("/home/vincent/CLionProjects/commutecpp/data/batman.bmp");
+	if (!m_s_batman) {
+		std::cerr << "Image batman doesnt exist !" << std::endl;
+		return;
+	}
 
 	m_rect.w = w;
 	m_rect.h = h;
 	m_rect.x = 0;
 	m_rect.y = 0;
+}
+
+void Map::loadTiles()
+{
+	m_batman = SDL_CreateTextureFromSurface(m_graphics->get_renderer(), m_s_batman);
+	if (!m_batman) {
+		std::cerr << "erreur batman" << std::endl;
+		return;
+	}
+	SDL_FreeSurface(m_s_batman);
 }
 
 void Map::loadCollision()
@@ -91,6 +109,10 @@ void Map::loadCollision()
 			}
 			else if (pixel == 0x0f0) {
 				TypeMap type(GRASS);
+				m_types_maps[l][h] = type;
+			}
+			else if (pixel == 0x00f) {
+				TypeMap type(TRAIN);
 				m_types_maps[l][h] = type;
 			}
 			else {
@@ -116,6 +138,30 @@ void Map::loadSpawnPoint()
 	}
 }
 
+void Map::loadBonus()
+{
+	m_bonus.clear();
+	int bonus;
+	for (int h = 0; h < get_h()-1; h++) {
+		for (int l = 0; l < get_w()-1; l++) {
+			if (m_types_maps[l][h] == ROAD) {
+				bonus = rand() % 100000;
+				if (bonus > 99998) {
+					int t = rand() % 3;
+					TypeBonus type((TypeBonus) t);
+					SDL_Rect rect;
+					rect.x = l-20;
+					rect.y = l-20;
+					rect.h = 40;
+					rect.w = 40;
+					Bonus b(type, rect, 1);
+					m_bonus.push_back(b);
+				}
+			}
+		}
+	}
+}
+
 void Map::loadEndPoint()
 {
 	Point point;
@@ -136,7 +182,18 @@ void Map::paint(SDL_Renderer *sdl_render)
 
 	// End Point
 	SDL_SetRenderDrawColor(sdl_render, 0, 255, 255, 255);
-
 	SDL_RenderFillRect(sdl_render, &m_end_point);
 	SDL_RenderDrawRect(sdl_render, &m_end_point);
+
+	// Bonus
+	SDL_SetRenderDrawColor(sdl_render, 255, 0, 0, 255);
+	for (const Bonus &b : m_bonus) {
+		SDL_RenderCopyEx(sdl_render, m_batman, NULL, &b.rect, 0, NULL, SDL_FLIP_NONE);
+		//SDL_RenderDrawRect(sdl_render, &b.rect);
+	}
+}
+
+void Map::loadSound()
+{
+	//s_train = Mix_LoadWAV("/home/vincent/CLionProjects/commutecpp/data/sound/punch.mp3");
 }

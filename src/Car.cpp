@@ -51,7 +51,7 @@ const char *Car::s_tilenames[] = {
 };
 SDL_Texture *Car::s_tile[CAR_MAX] = {};
 
-void Car::load_punch()
+void Car::load_sound()
 {
 	s_punch = Mix_LoadWAV("/home/vincent/CLionProjects/commutecpp/data/sound/punch.mp3");
 }
@@ -174,6 +174,22 @@ void Car::move()
 		if (check_collision_with_rect(m_map->get_end_point())) {
 			Game::win();
 		}
+		// Check bonus
+		std::vector<Bonus> &bonus = m_map->get_bonus();
+		int i = 0;
+		for (Bonus &b : bonus) {
+			if (check_collision_with_rect(b.rect)) {
+				m_type_bonus = b.type;
+				m_override_speed = b.speed;
+				m_time_bonus = b.time;
+				bonus.erase(bonus.begin() + i);
+
+				if (m_type_bonus) {
+					Game::set_cop(false);
+				}
+			}
+			i++;
+		}
 	}
 	float dep_x = (m_speed + m_override_speed) * cos(val * m_direction);
 	float dep_y = (m_speed + m_override_speed) * sin(val * m_direction);
@@ -193,30 +209,45 @@ void Car::move()
 
 		if (car != this && check_collision_with_car(car)) {
 			// Police arrest car
-			if (time > 100 && time < 429467294 && ((m_type == POLICE && car->get_drive()) || m_drive && car->get_type() == POLICE)) {
-				Game::set_arrest(true);
+			if (Game::get_cop()) {
+				if (time > 100 && time < 429467294 &&
+					((m_type == POLICE && car->get_drive()) || m_drive && car->get_type() == POLICE)) {
+					Game::set_arrest(true);
+				}
+			}
+			else {
+				Game::set_cop(true);
 			}
 			Mix_PlayChannel(2, s_punch, 0);
 			pos.x = pos.x + ((m_speed + m_override_speed) * cos(val * m_direction) * 2);
 			pos.y = pos.y + ((m_speed + m_override_speed) * sin(val * m_direction) * 2);
 			car->check_collision(pos.x, pos.y);
-			x = m_pos.x;
-			y = m_pos.y;
+			if (m_time_bonus <= 0 && m_type_bonus != BONUS_INVINCIBLE) {
+				x = m_pos.x;
+				y = m_pos.y;
+			}
 			car->set_pos(pos);
 		}
 	}
 	if (time > 100 && m_map->get_cop())
 		cars.pop_back();
 
+	if (m_time_bonus <= 0) {
+		m_override_speed = 0;
+	}
+
 	check_collision(x, y);
 
 	m_pos.x = x;
 	m_pos.y = y;
+
+	if (m_time_bonus > 0) {
+		m_time_bonus--;
+	}
 }
 
 bool Car::check_collision(float &x, float &y)
 {
-	m_override_speed = 0;
 	TypeMap **types_maps;
 	types_maps = m_map->get_types_maps();
 	int case_x = static_cast<int>(x+size/2);
@@ -239,7 +270,8 @@ bool Car::check_collision(float &x, float &y)
 		return true;
 	}
 	else if (types_maps[case_x][case_y] == GRASS){
-		m_override_speed = -2;
+		if (m_time_bonus <= 0 && m_type_bonus != BONUS_INVINCIBLE)
+			m_override_speed = -2;
 	}
 	else {
 

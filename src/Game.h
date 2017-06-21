@@ -47,6 +47,8 @@ public:
 	static bool is_loose() { return s_loose;}
 	static void set_arrest(bool arrest = true) { s_arrest = arrest; }
 	static bool is_arrest() { return s_arrest; }
+	static bool set_cop(bool cop = true) { s_cop = cop; }
+	static bool get_cop() { return s_cop; }
 
 	static void set_volume(uint32_t volume) { s_volume = volume; }
 	static uint32_t get_volume() { return s_volume; }
@@ -67,6 +69,7 @@ private:
 	static bool s_pause;
 	static bool s_win;
 	static bool s_loose;
+	static bool s_cop;
 	static bool s_arrest;
 	static uint32_t s_volume;
 	static uint32_t s_time;

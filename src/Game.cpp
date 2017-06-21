@@ -40,6 +40,7 @@ bool Game::s_pause = false;
 bool Game::s_win = false;
 bool Game::s_loose = false;
 bool Game::s_arrest = false;
+bool Game::s_cop = false;
 uint32_t Game::s_volume = MIX_MAX_VOLUME / 4;
 //uint32_t Game::s_time_max = 500;
 
@@ -73,23 +74,24 @@ void Game::start()
 	Mix_VolumeMusic(s_volume);
 
 	m_car = new Car(m_map, true);
-	Car::load_punch();
+	Car::load_sound();
 	cars_t cars = {};
 	m_map->set_car(m_car);
 	m_map->set_cars(cars);
 
 	m_graphics->openWindow(m_map);
 	m_graphics->loadTiles();
+	m_map->loadTiles();
 
 	m_map->loadSpawnPoint();
 	std::cout << "Chargement des collision" << std::endl;
 	m_map->loadCollision();
-	std::cout << "TEST : " << m_map->get_types_maps()[10][10] << std::endl;
 	std::cout << "Fin chargement collision" << std::endl;
 	m_car->spawn();
 	m_map->loadEndPoint();
 	Cop *cop = nullptr;
 	Cop::load_siren();
+	m_map->loadBonus();
 
 	m_event = new Event(this, m_car);
 
@@ -112,6 +114,7 @@ void Game::start()
 				m_map->set_cop(cop);
 			}
 			respawn();
+			m_map->loadBonus();
 		}
 
 		if (s_time == s_time_max) {
@@ -132,10 +135,13 @@ void Game::start()
 				cop = nullptr;
 				m_map->set_cop(cop);
 			}
-			cop = new Cop(m_car);
-			cop->set_type(POLICE);
-			cop->set_drive(false);
+			if (s_cop) {
+				cop = new Cop(m_car);
+				cop->set_type(POLICE);
+				cop->set_drive(false);
+			}
 			m_map->set_cop(cop);
+			m_map->loadBonus();
 		}
 
 		if (m_car->get_drive()) {

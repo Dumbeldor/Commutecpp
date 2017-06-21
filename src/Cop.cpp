@@ -56,9 +56,15 @@ void Cop::move()
 
 	}
 	else {
-		Car::move();
-		if (Mix_Paused(3))
-			Mix_Resume(3);
+		if (!Game::get_cop()) {
+			if (!Mix_Paused(3))
+				Mix_Pause(3);
+		}
+		else {
+			Car::move();
+			if (Mix_Paused(3))
+				Mix_Resume(3);
+		}
 	}
 }
 

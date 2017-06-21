@@ -62,7 +62,7 @@ struct Position {
 
 class Car {
 public:
-	Car(Map *map, bool drive = false, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 4, int sterring = 3, float direction = 0.0f);
+	Car(Map *map, bool drive = false, TypeCar type = VIPER, Position pos = Position(0, 0), int speed = 5, int sterring = 4, float direction = 0.0f);
 	Car(Car *car);
 	~Car();
 	void paint(SDL_Renderer *sdl_render) const;
@@ -112,7 +112,7 @@ public:
 
 	Map *get_map() const { return m_map; }
 
-	static void load_punch();
+	static void load_sound();
 	static Mix_Chunk *get_punch() { return s_punch; }
 
 	//CollisionBox *get_collision_box() const { return m_collision_box; };
@@ -120,6 +120,8 @@ public:
 
 protected:
 	static Mix_Chunk *s_punch;
+	uint32_t m_time_bonus = 0;
+	TypeBonus m_type_bonus;
 	bool m_drive = false;
 	TypeCar m_type = VIPER;
 	int m_speed = 2, m_steering = 2;
